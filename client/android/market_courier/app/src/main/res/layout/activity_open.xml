@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/widget_titlebar_base" />
+
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/font_6"
+            android:text="配送单号："
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"  />
+
+        <TextView
+            android:id="@+id/tv_orderid"
+            android:textSize="16sp"
+            android:textColor="@color/font_3"
+            android:text="地址"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"  />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/code_img"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="250dp"
+        android:layout_height="250dp" />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:textSize="14sp"
+        android:textColor="@color/font_3"
+        android:text="请将二维码对准扫描取件"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"  />
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        android:textColor="@color/font_3"
+        android:text="如遇问题，请及时联系客服"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"  />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/kf_phone"
+        android:padding="15dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16sp"
+            android:textColor="@color/font_6"
+            android:text="联系客服："
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"  />
+
+        <TextView
+            android:id="@+id/kf_num"
+            android:textSize="16sp"
+            android:textColor="@color/blue"
+            android:text="400-400-4000"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"  />
+
+    </LinearLayout>
+
+</LinearLayout>

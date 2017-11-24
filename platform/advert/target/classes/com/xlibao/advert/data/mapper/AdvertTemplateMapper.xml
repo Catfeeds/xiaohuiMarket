@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.advert.data.mapper.AdvertTemplateMapper">
+
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.advert.AdvertInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="advert_id" property="advertID" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="video_name" property="videoName" jdbcType="VARCHAR"/>
+        <result column="time_size" property="timeSize"/>
+        <result column="time_type" property="timeType" jdbcType="BIGINT"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="used" property="used" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="searchAdvertTemplates" resultMap="BaseResultMap">
+        SELECT * FROM advert_info WHERE is_delete!=1
+        <if test="title!=null">
+            AND title LIKE "%"#{title}"%"
+        </if>
+        <if test="timeType!=-1">
+            AND time_type = #{timeType}
+        </if>
+        <if test="isUsed!=-1">
+            AND used = #{isUsed}
+        </if>
+        order by create_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <insert id="uploadAdvertInfo" parameterType="com.xlibao.metadata.advert.AdvertInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO advert_info (advert_id,title,video_name,time_size,time_type,remark,url)
+        VALUE (#{advertID},#{title},#{videoName},#{timeSize},#{timeType},#{remark},#{url})
+    </insert>
+
+    <select id="getMaxAdvertID" resultType="int">
+        SELECT MAX(advert_id) FROM  advert_info
+    </select>
+
+    <select id="searchAdvertFromID" resultMap="BaseResultMap">
+        SELECT * FROM advert_info WHERE advert_id = #{advertID}
+    </select>
+
+
+    <update id="updateAdvertInfo">
+        UPDATE advert_info SET title = #{title},time_size=#{timeSize},remark=#{remark} WHERE advert_id = #{advertID}
+    </update>
+
+    <!--<delete id="deleteAdvertFromID">
+        DELETE FROM advert_info WHERE advert_id = #{advertID}
+    </delete>-->
+
+    <update id="deleteAdvertFromID">
+        UPDATE advert_info SET is_delete = 1 WHERE advert_id = #{advertID}
+    </update>
+
+
+
+</mapper>

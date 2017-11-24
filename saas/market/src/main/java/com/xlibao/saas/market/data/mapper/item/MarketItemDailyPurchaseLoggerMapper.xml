@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.item.MarketItemDailyPurchaseLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketItemDailyPurchaseLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="item_template_id" property="itemTemplateId" jdbcType="BIGINT"/>
+        <result column="has_buy_count" property="hasBuyCount" jdbcType="INTEGER"/>
+        <result column="happen_date" property="happenDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="passportDailyBuyLoggers" resultMap="BaseResultMap">
+        select * from market_item_daily_purchase_logger where passport_id = #{passportId} and item_id in(${itemSet}) and happen_date = #{date}
+    </select>
+</mapper>

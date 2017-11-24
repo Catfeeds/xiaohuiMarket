@@ -1,0 +1,106 @@
+<import src="../../template/template.wxml"/>
+<import src="../../template/temp-goods.wxml"/>
+
+<view class="index">
+	<view class="navbar search">
+		<image class="icon-search" src="{{icons.search.url}}" style="width: {{icons.search.w}};height:{{icons.search.h}};"></image>
+		<input placeholder="搜索商品" focus="true" bindinput="onSearch"></input>
+		<viem class="but" bindtap="onack">取消</viem>
+	</view>
+
+	<view class="search-panel">
+		<view style="height: 44px;"></view>
+		<block wx:if="{{status.showSearch == 0}}">
+			<view class="title">
+				<text>历史搜索</text>
+				<image class="" src="{{icons.close.url}}" style="width: {{icons.close.w}};height:{{icons.close.h}};position: absolute;right: 16px;top:20px"></image>
+			</view>
+			<view style="padding: 0px 15px 0px 15px;">
+				<view class="tag">花生瓜子</view>
+				<view class="tag">品牌酒类</view>
+				<view class="tag">糖果</view>
+				<view class="tag">泡菜干</view>
+				<view class="tag">糯米干蒸</view>
+			</view>
+
+			<view class="title">
+				<text>热门搜索</text>
+			</view>
+			<view style="padding: 0px 15px 20px 15px;">
+				<view class="tag">洗发护理</view>
+				<view class="tag">飘柔</view>
+				<view class="tag">苹果</view>
+				<view class="tag">生鲜海味</view>
+				<view class="tag">雪梨苹果</view>
+			</view>
+		</block>
+
+		<block wx:if="{{status.showSearch == 1}}">
+		<view class="list justify">
+			<view class="item" bindtap="onSearchGood">
+				<view><text>旺仔馒头 100g</text></view>
+			</view>
+			<view class="item" bindtap="onSearchGood">
+				<view><text>旺仔牛奶糖 10桶</text></view>
+			</view>
+			<view class="item" bindtap="onSearchGood">
+				<view><text>旺仔QQ糖</text></view>
+			</view>
+			<view class="item" bindtap="onSearchGood">
+				<view><text>旺仔洗衣液</text></view>
+			</view>
+			<view class="item" bindtap="onSearchGood">
+				<view><text>旺仔奶酪9000g</text></view>
+			</view>
+		</view>
+		</block>
+	</view>
+
+	<block wx:if="{{status.showSearch == 2}}">
+		<view style="width:100%;height:100%;display:inline-flex;">
+			<!-- 商品显示区域 -->
+			<scroll-view class="list" scroll-y="true" style="width: 100%">
+				<!-- <view style="height: 40px;"></view> -->
+				<template is="temp_goods" data="{{...item}}" wx:for="{{goodData}}" wx:key="{{item.id}}"/>
+				<!-- <view style="height: 50px;"></view> -->
+			</scroll-view>
+		</view>
+
+		<!-- 购物车 -->
+		<view class="cartnav">
+			<view class="item left {{status.cartShow ? 'hide':'show'}}">
+				<view class="iconCart">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/CarIcon@3x.png" data-status-key="cartShow" bindtap="onStatus"></image>
+					<view class="tagNnm">{{cartTotal.totalNum}}</view>
+				</view>
+			</view>
+			<view class="item center">
+				<view class="text-small-1x">合计：￥<text class="text-large-2x">￥{{cartTotal.totalMoney / 100}}</text></view>
+				<view class="text-small-1x">节省：￥0.00</view>
+			</view>
+			<navigator class="item right" style="font-size: 17px;" hover-class="navigator-hover" url="../pay/pay">去结算</navigator>
+		</view>
+
+		<!-- 二级购物车 -->
+		<view class="cart-subnav-scenes {{status.cartShow ? 'show':'hide'}}" data-status-key="cartShow" catchtap="onStatus"></view>
+		<view class="cart-subnav {{status.cartShow ? 'show':'hide'}}">
+			<view class="iconCart">
+				<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/CarIcon@3x.png" data-status-key="cartShow" catchtap="onStatus"></image>
+				<view class="tagNnm">{{cartTotal.totalNum}}</view>
+			</view>
+			<text class="iconCart-up"></text>
+			<view class="hd">
+				<label class="checkbox">
+					<checkbox style="transform:scale(.6);" data-check="{{status.checkAll}}" checked="{{status.checkAll ? 'checked':''}}" catchtap="onCartCheckAll"></checkbox>
+					全选（已选 {{checkTotal.speciesNum || 0}} 件）
+				</label>
+				<view style="width:80px;" data-type="REMOVER" catchtap="onCart">
+					清空购物车
+				</view>
+			</view>
+			<scroll-view class="bd list" scroll-y="true">
+				<template is="temp_goods_cart" data="{{...item}}" wx:for="{{cartData}}" wx:key="{{item.id}}"/>
+			</scroll-view>
+		</view>
+	</block>
+</view>

@@ -1,0 +1,17 @@
+
+<view class="index">
+
+	<view class="list justify" >
+		<view class="item">
+			<view></view>
+			<navigator url="../order/order"><text class="text-red">使用说明</text></navigator>
+		</view>
+	</view>
+	<view class="content">
+		<image class="scan-img" src="/image/scan.png"></image>
+		<view style="text-align: center;margin:10px 0 20px 0;">
+			<view><text class="text-large-17">小惠便利仓 淘金店</text></view>
+			<view><text class="text-muted">广州市越秀区淘金南路114号102(近表叔茶餐厅)</text></view>
+		</view>
+	</view>
+</view>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.item.data.mapper.ItemUnitMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.item.ItemUnit">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <select id="loaderItemUnits" resultMap="BaseResultMap">
+        select * from item_unit
+    </select>
+
+    <select id="getItemUnit" resultMap="BaseResultMap">
+        select * from item_unit where id = #{itemUnitId}
+    </select>
+
+    <select id="getItemUnitList" resultMap="BaseResultMap">
+        select * from item_unit where 1=1
+        <if test="title != null" > and title like "%"#{title}"%" </if>
+        <if test="status != -1" > and status = #{status} </if>
+        order by id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getItemUnitListCount" resultType="Integer">
+        select COUNT(id) from item_unit where  1=1
+        <if test="title != null" > and title like "%"#{title}"%" </if>
+        <if test="status != -1" > and status = #{status} </if>
+    </select>
+
+    <select id="searchItemUnitByName" resultMap="BaseResultMap">
+        select * from item_unit
+        <!-- 不为空，才以此条件进行搜索 -->
+        <if test="searchKey != null" > where title like "%"#{searchKey}"%" </if>
+        <!-- 为0，取全部 -->
+        <if test="pageSize != 0" >
+           order by id desc limit #{pageStartIndex}, #{pageSize}
+        </if>
+    </select>
+
+    <select id="searchItemUnitCountByName" resultType="Integer">
+        select COUNT(id) from item_unit
+        <if test="searchKey != null" > where title like "%"#{searchKey}"%" </if>
+    </select>
+
+    <insert id="createItemUnit" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.item.ItemUnit">
+        insert into item_unit(title, status) values(#{title}, #{status})
+    </insert>
+
+    <update id="updateItemUnit">
+        update item_unit set title = #{title}, status = #{status}
+        where id = #{itemUnitId}
+    </update>
+
+    <select id="getItemUnitByTitle" resultMap="BaseResultMap">
+        select * from item_unit where title = #{title}
+    </select>
+
+</mapper>

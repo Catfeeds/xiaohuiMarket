@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentCurrencyAccountMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentCurrencyAccount">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="channel_id" property="channelId" jdbcType="BIGINT"/>
+        <result column="currency_type" property="currencyType" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="current_amount" property="currentAmount" jdbcType="BIGINT"/>
+        <result column="freeze_amount" property="freezeAmount" jdbcType="BIGINT"/>
+        <result column="total_into_amount" property="totalIntoAmount" jdbcType="BIGINT"/>
+        <result column="total_output_amount" property="totalOutputAmount" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createCurrencyAccount"  useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.payment.data.model.PaymentCurrencyAccount">
+        insert into payment_currency_account(passport_id, channel_id, currency_type, name, current_amount, freeze_amount, total_into_amount, total_output_amount, create_time)
+        values(#{passportId}, #{channelId}, #{currencyType}, #{name}, #{currentAmount}, #{freezeAmount}, #{totalIntoAmount}, #{totalOutputAmount}, #{createTime})
+    </insert>
+
+    <select id="getCurrencyAccount" resultMap="BaseResultMap">
+        select * from payment_currency_account where passport_id = #{passportId} and channel_id = #{channelId} and currency_type = #{currencyType}
+    </select>
+
+    <select id="getCurrencyAccounts" resultMap="BaseResultMap">
+        select * from payment_currency_account where passport_id = #{passportId} and channel_id = #{channelId}
+    </select>
+
+    <update id="offsetCurrencyAmount">
+        update payment_currency_account set current_amount = current_amount + #{offsetAmount},
+            <if test="offsetAmount >= 0">
+                total_into_amount = total_into_amount + #{offsetAmount}
+            </if>
+            <if test="offsetAmount &lt; 0">
+                total_output_amount = total_output_amount + abs(#{offsetAmount})
+            </if>
+        where passport_id = #{passportId} and channel_id = #{channelId} and currency_type = #{currencyType} and (current_amount + #{offsetAmount} >= 0)
+    </update>
+</mapper>

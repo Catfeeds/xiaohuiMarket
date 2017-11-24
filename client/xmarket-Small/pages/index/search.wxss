@@ -1,0 +1,79 @@
+/** category.wxss **/
+page{
+	background:#efeff4;
+}
+
+/** navbar 导航栏 **/
+.navbar.search{
+  opacity: 0.9;
+  position: absolute;
+  top: 0px;
+  z-index: 100;
+  background: #F0EFF5;
+  height: 44px;
+  border-bottom: 1px solid;
+  border-color: rgba(0,0,0,0.10);
+}
+
+.search .but{
+	line-height: 44px;
+	padding:0 15px 0 0;
+	color: #8F1A30;
+	font-size: 16px;
+	display: block;
+}
+.search .icon-search{
+	position: absolute;
+	left: 18px;
+	top: 18px;
+	color: red;
+}
+.search input{
+	color: #8F1A30;
+	padding-left:31px;
+	background:#fff;
+	border-radius: 6px;
+	border:1px solid #E6E6EA;
+	margin: 7px; 
+	width: calc(100% - 100px);
+	height:28px;
+	min-height: 28px;
+}
+
+.search input::-webkit-input-placeholder {
+	line-height: 30px;
+}
+
+
+
+.tag{
+	padding: 8px 15px;
+	background: #EAEEF2;
+	border-radius: 6px;
+	margin-right: 10px;
+	margin-top: 10px;
+	display: inline-flex;
+
+	/*font-size: 28px;*/
+	color: #888888;
+}
+
+.search-panel{  /*default */
+	background:#fff;
+	/*padding-top: 5px;*/
+}	
+
+.search-panel .title{
+	padding:20px 0 10px 0;
+	margin-left:15px;
+	color:#666666;
+	position: relative;
+	border-bottom:1px solid;
+	border-color: #eee;	
+}
+
+
+
+
+
+

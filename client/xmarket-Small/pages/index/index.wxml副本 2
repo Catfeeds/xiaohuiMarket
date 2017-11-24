@@ -1,0 +1,66 @@
+<import src="../../template/template.wxml"/>
+<import src="../../template/temp-goods.wxml"/>
+
+<view class="index cus-height-100">
+	<view class="navbar">
+		<icon class="left iconfont icon-yingyongchengxu" bindtap="onCanvas" data-temp="temp_offcanvas_navbar" ></icon>
+		<view class="center"  bindtap="onCanvas" data-temp="temp_offcanvas_address" >
+			{{currMarket.name}}<icon class="iconfont icon-weizhi cus-fs-14" data-temp="temp_offcanvas_address"></icon>
+		</view>
+		<navigator hover-class="navigator-hover" url="../order/order"> 
+		<icon class="right iconfont icon-sousuo-xianxing"></icon>
+		</navigator>
+	</view>
+	<view class="row " style="height:calc(100% - 45px - 60px)">
+		<view class="col-25 cus-text-algin-left cus-height-100 cus-bgColor-shallow cus-margin-t-5">
+			<scroll-view scroll-y="true" style="height: 100%;">
+				<view class="navigator-text {{active == -1 ?'active':''}}" data-idx="-1" data-temp="temp_Order_take" bindtap="onTarget">待取货</view>
+				<block wx:for="{{typeList}}" wx:key="{{item.id}}" wx:for-index="idx">
+		 		<view class="navigator-text {{active == idx ?'active':''}}" data-idx="{{idx}}" data-temp="temp_Goods" bindtap="onTarget">{{item.name}}</view>
+			 	<view class="navigator-children cus-text-algin-left {{active==idx?'active':''}}">
+		 			<block wx:for="{{item.subItemTypes}}" wx:for-item="subItem" wx:key="{{subItem.id}}" wx:for-index="subIdx">
+			 		<view class="navigator-text {{subActive==idx+'_'+subIdx?'active':''}}" data-temp="temp_Goods" data-idx="{{idx+'_'+subIdx}}" bindtap="onSubTarget">{{subItem.name}}</view>
+        			</block>
+			 	</view> 
+	        	</block>
+			</scroll-view> 
+		</view>
+
+		<view class="col-75 text-algin-center cus-height-100 cus-margin-t-5"> 
+			<scroll-view scroll-y="true" style="height: 100%;">
+				<template is="{{showTemp}}" data="{{...item}}" wx:for="{{goodData}}" wx:key="{{item.id}}"/>
+			</scroll-view>
+		</view>
+	</view>
+	<view class="navCart">
+		<view class="iconCart">
+			<view class="tagRound">{{cartTotal.totalNum}}</view>
+			<icon class="iconfont icon-caigou-xianxing"></icon>
+		</view>
+		<view class="center">￥{{cartTotal.totalMoney / 100}}</view>
+		<view class="right">
+		<navigator hover-class="navigator-hover" url="../pay/pay">去结算</navigator>
+		</view>
+	</view>
+
+	<view class="offcanvas {{isCanvas? 'active':''}}" style="top:45px"  bindtap="onCanvas" data-isCanvas="{{isCanvas}}">
+		<view class="offcanvas-bar {{isCanvas? 'offcanvas-bar-show':''}} {{showCanvasTemp == 'temp_offcanvas_address'?'offcanvas-bar-center':''}}" 
+		style="top:45px;{{showCanvasTemp == 'temp_offcanvas_navbar'?'width: 150px':''}}" catchtap="off">
+			<template wx:if="{{showCanvasTemp == 'temp_offcanvas_navbar'}}" is="temp_offcanvas_navbar"></template>
+			<block wx:if="{{showCanvasTemp == 'temp_offcanvas_address'}}">
+				<view class="navigator-text cus-fs-18 cus-border-bt-solid" catchtap="off">选择店铺</view>	
+				<block wx:if="{{currMarket}}">
+					<view class="navigator-text cus-border-bt-solid" bindtap="onMarket" data-id="{{currMarket.id}}">
+						<view class="store" data-id="{{currMarket.id}}">
+							当前位置：{{currMarket.name}}
+							<view class="tags" style="background: red" data-id="{{currMarket.id}}">当前关联</view>
+							<view class="tags dist" data-id="{{currMarket.id}}">{{currMarket.formatDistance}}</view>
+						</view> 
+						<text class="addres" data-id="{{currMarket.id}}">地址：{{currMarket.formatAddress}}</text>
+					</view>
+				</block>
+				<template is="temp_offcanvas_address" data="{{...item,currMarket}}" wx:for="{{marketData}}" wx:key="{{item.id}}"></template>
+			</block>
+		</view>
+	</view>
+</view>

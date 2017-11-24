@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.passport.data.mapper.partner.PassportPartnerApplicationPropertiesMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.passport.PassportPartnerApplicationProperties">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="app_id" property="appId" jdbcType="BIGINT"/>
+        <result column="use_platform" property="usePlatform" jdbcType="INTEGER"/>
+        <result column="packages" property="packages" jdbcType="VARCHAR"/>
+        <result column="scene" property="scene" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="dev_certificate" property="devCertificate" jdbcType="VARCHAR"/>
+        <result column="prod_certificate" property="prodCertificate" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+</mapper>

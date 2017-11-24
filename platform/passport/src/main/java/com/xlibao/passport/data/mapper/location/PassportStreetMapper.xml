@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.passport.data.mapper.location.PassportStreetMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.passport.PassportStreet">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="area_id" property="areaId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="loaderStreets" resultMap="BaseResultMap">
+        select * from passport_street
+        <if test="districtId != 0">
+            where area_id = #{districtId}
+        </if>
+    </select>
+
+    <select id="getStreet" resultMap="BaseResultMap">
+        select * from passport_street
+        <if test="streetId != 0">
+            where id = #{streetId}
+        </if>
+    </select>
+
+    <select id="searchStreetByName" resultMap="BaseResultMap">
+        select * from passport_street where area_id = #{areaId} and name = #{name}
+    </select>
+
+    <insert id="createStreet" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.passport.PassportStreet">
+        insert into passport_street(area_id, name) values(#{areaId}, #{name})
+    </insert>
+
+    <update id="updateStreet">
+        update passport_street set name = #{name} where id = #{streetId}
+    </update>
+
+</mapper>

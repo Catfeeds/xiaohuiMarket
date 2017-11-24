@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>xmarket</artifactId>
+        <groupId>xlibao</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>saas</artifactId>
+    <packaging>pom</packaging>
+    <name>xlibao SAAS服务系统</name>
+
+    <modules>
+        <module>market</module>
+        <module>marketmanager</module>
+        <module>marketshop</module>
+        <module>marketcore</module>
+        <module>marketmodel</module>
+        <module>test</module>
+        <module>marketadver</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>xlibao</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>

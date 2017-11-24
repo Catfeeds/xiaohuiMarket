@@ -1,0 +1,35 @@
+<!-- 模板 订单信息_状态 -->
+<template name="temp_orders">
+   <view class="order">
+		<view class="hd">
+			<view class="left">{{marketName}}
+				<text wx:if="{{deliverType == 1}}" class="tags {{ deliverType == 1 ? 'green':'yellow'}}">{{deliverTitle}}</text>
+			</view>
+			<view class="right text-main">{{orderStatusTitle}}</view>
+		</view>
+   		<scroll-view scroll-x="true" style="height: 85;" class="bd {{itemsSize == 1 ? 'space':''}}" bindtap="onGo" data-url="orderInfo?orderId={{orderId}}">
+			<block wx:for="{{items}}" wx:for-item="item" wx:key="item.itemId">
+   			<view class="item {{itemsSize > 1 ? 'multiple':''}}" data-url="orderInfo?orderId={{orderId}}">
+   				<image class="item-img" src="{{item.image}}" data-url="orderInfo?orderId={{orderId}}"></image>
+   				<text  class="item-title" data-id="10000">{{item.itemName}}</text>
+   			</view>
+   			</block>
+   		</scroll-view>
+		<view class="ft">
+			<view class="left text-small">共{{totalItemQuantity}}件商品，实付款：<text class="text-large-15">￥{{actualPrice / 100}}</text></view>
+			<view class="right">
+				<button wx:if="{{orderStatus == 256}}" type="primary" plain size="mini">再次购买</button>
+				<!-- 
+				自提情况 取货后 不能退款
+				配送情况 配送状态 快递员已接单  就不能再退 
+				-->
+				<button wx:if="{{orderStatus == 1}}" type="primary" size="mini">去支付</button>
+				<button wx:if="{{orderStatus == 256}}" type="primary" size="mini">再次购买</button>
+				<button wx:if="{{order.deliverType == 1 && order.orderStatus < 128 && order.orderStatus > 1}}" type="default" size="mini">申请退款</button>
+				<button wx:if="{{deliverType == 1 &&orderStatus == 64}}" type="primary" size="mini">扫码取货</button>
+				<button wx:if="{{deliverType == 2 && orderStatus < 32}}" type="default" size="mini">申请退款</button>
+				<button wx:if="{{orderStatus > 512}}" type="default" size="mini" bindtap="onGo" data-url="orderInfo">查看详情</button>
+			</view>
+		</view>
+   </view>
+</template>

@@ -1,0 +1,16 @@
+
+
+<view style="padding: 10px 15px;color: #F5A623;background:#efeff4;">
+	<view>
+		<text>请选择</text>
+	</view>
+</view>
+<view class="list justify">
+	<view class="item" wx:for="{{itemData}}" wx:key="{{item.id}}">
+		<view>
+			<text>{{item.name}}</text>
+		</view>
+	</view>
+
+</view>
+

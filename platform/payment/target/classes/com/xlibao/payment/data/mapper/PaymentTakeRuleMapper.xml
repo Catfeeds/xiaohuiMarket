@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentTakeRuleMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentTakeRule">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="take_mode" property="takeMode" jdbcType="INTEGER"/>
+        <result column="take_desc" property="takeDesc" jdbcType="VARCHAR"/>
+        <result column="target_type" property="targetType" jdbcType="INTEGER"/>
+        <result column="low_cost" property="lowCost" jdbcType="BIGINT"/>
+        <result column="high_cost" property="highCost" jdbcType="BIGINT"/>
+        <result column="rate" property="rate" jdbcType="INTEGER"/>
+        <result column="single_amount_limit" property="singleAmountLimit" jdbcType="BIGINT"/>
+        <result column="day_amount_limit" property="dayAmountLimit" jdbcType="BIGINT"/>
+        <result column="day_count_limit" property="dayCountLimit" jdbcType="INTEGER"/>
+        <result column="holiday_delay" property="holidayDelay" jdbcType="TINYINT"/>
+        <result column="delay_hour" property="delayHour" jdbcType="INTEGER"/>
+        <result column="rule_effect_time" property="ruleEffectTime" jdbcType="TIMESTAMP"/>
+        <result column="rule_invalid_time" property="ruleInvalidTime" jdbcType="TIMESTAMP"/>
+        <result column="show_image" property="showImage" jdbcType="VARCHAR"/>
+        <result column="default_option" property="defaultOption" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <select id="getTakeRule" resultMap="BaseResultMap">
+        select * from payment_take_rule where take_mode = #{mode} and target_type = #{targetType}
+    </select>
+
+    <select id="getTakeRules" resultMap="BaseResultMap">
+        select * from payment_take_rule where target_type = #{targetType} and (now() between rule_effect_time and rule_invalid_time)
+    </select>
+</mapper>

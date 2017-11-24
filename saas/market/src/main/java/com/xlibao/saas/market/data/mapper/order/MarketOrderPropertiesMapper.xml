@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.order.MarketOrderPropertiesMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.saas.market.data.model.MarketOrderProperties">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="order_sequence_number" property="orderSequenceNumber" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="k" property="k" jdbcType="VARCHAR"/>
+        <result column="v" property="v" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="createOrderProperties" keyProperty="id" useGeneratedKeys="true" parameterType="com.xlibao.saas.market.data.model.MarketOrderProperties">
+        insert into market_order_properties(order_id, order_sequence_number, type, k, v) values(#{orderId}, #{orderSequenceNumber}, #{type}, #{k}, #{v})
+    </insert>
+
+    <select id="getOrderProperties" resultMap="BaseResultMap">
+        select * from market_order_properties where order_id = #{orderId} and type = #{propertiesType} and k = #{propertiesKey}
+    </select>
+
+    <update id="updateOrderProperties">
+        update market_order_properties set v = #{propertiesValue} where id = #{id}
+    </update>
+</mapper>

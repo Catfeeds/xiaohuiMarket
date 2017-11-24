@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.activity.MarketTimeTaskLockMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.saas.market.data.model.MarketTimeTaskLock">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="happen_time" property="happenTime" jdbcType="VARCHAR"/>
+        <result column="winner_address" property="winnerAddress" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="createTimeTaskLock">
+        insert into market_time_task_lock(title, type, happen_time, winner_address) values(#{title}, #{type}, #{happenTime}, #{winnerAddress})
+    </insert>
+
+    <select id="hasExecutor" resultType="int">
+        select count(*) from market_time_task_lock where type = #{type} and happen_time = #{happenTime}
+    </select>
+</mapper>

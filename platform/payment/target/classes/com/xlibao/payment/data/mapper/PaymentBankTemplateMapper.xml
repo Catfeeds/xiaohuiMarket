@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentBankTemplateMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentBankTemplate">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="simple_code" property="simpleCode" jdbcType="VARCHAR"/>
+        <result column="bank_code" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="logo" property="logo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="showBankTemplates" resultMap="BaseResultMap">
+        select * from payment_bank_template
+    </select>
+
+    <select id="getBankTemplates" resultMap="BaseResultMap">
+        select * from payment_bank_template where id in(${bankTemplateSet})
+    </select>
+
+    <select id="getBankTemplate" resultMap="BaseResultMap">
+        select * from payment_bank_template where id = #{bankTemplateId}
+    </select>
+</mapper>

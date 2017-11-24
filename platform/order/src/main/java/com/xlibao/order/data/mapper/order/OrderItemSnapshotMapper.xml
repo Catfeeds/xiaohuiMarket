@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.order.data.mapper.order.OrderItemSnapshotMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.order.OrderItemSnapshot">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="user_mark" property="userMark" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="item_template_id" property="itemTemplateId" jdbcType="BIGINT"/>
+        <result column="item_name" property="itemName" jdbcType="VARCHAR"/>
+        <result column="item_type_id" property="itemTypeId" jdbcType="BIGINT"/>
+        <result column="item_type_name" property="itemTypeName" jdbcType="VARCHAR"/>
+        <result column="item_unit_id" property="itemUnitId" jdbcType="BIGINT"/>
+        <result column="item_unit_name" property="itemUnitName" jdbcType="VARCHAR"/>
+        <result column="item_barcode" property="itemBarcode" jdbcType="VARCHAR"/>
+        <result column="item_code" property="itemCode" jdbcType="VARCHAR"/>
+        <result column="item_batches" property="itemBatches" jdbcType="INTEGER"/>
+        <result column="introduction_page" property="introductionPage" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="normal_quantity" property="normalQuantity" jdbcType="INTEGER"/>
+        <result column="discount_quantity" property="discountQuantity" jdbcType="INTEGER"/>
+        <result column="shipment_quantity" property="shipmentQuantity" jdbcType="INTEGER"/>
+        <result column="distribution_quantity" property="distributionQuantity" jdbcType="INTEGER"/>
+        <result column="receipt_quantity" property="receiptQuantity" jdbcType="INTEGER"/>
+        <result column="return_quantity" property="returnQuantity" jdbcType="INTEGER"/>
+        <result column="normal_price" property="normalPrice" jdbcType="BIGINT"/>
+        <result column="discount_price" property="discountPrice" jdbcType="BIGINT"/>
+        <result column="cost_price" property="costPrice" jdbcType="BIGINT"/>
+        <result column="market_price" property="marketPrice" jdbcType="BIGINT"/>
+        <result column="total_price" property="totalPrice" jdbcType="BIGINT"/>
+        <result column="return_price" property="returnPrice" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="createOrderItemSnapshot" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.order.OrderItemSnapshot">
+        insert into order_item_snapshot(user_mark, order_id, item_id, item_template_id, item_name, item_type_id, item_type_name, item_unit_id, item_unit_name, item_barcode, item_code, item_batches,
+          introduction_page, normal_quantity, discount_quantity, normal_price, discount_price, cost_price, market_price, total_price)
+        values(#{userMark}, #{orderId}, #{itemId}, #{itemTemplateId}, #{itemName}, #{itemTypeId},
+          #{itemTypeName}, #{itemUnitId}, #{itemUnitName}, #{itemBarcode}, #{itemCode}, #{itemBatches}, #{introductionPage}, #{normalQuantity}, #{discountQuantity}, #{normalPrice}, #{discountPrice}, #{costPrice}, #{marketPrice}, #{totalPrice})
+    </insert>
+
+    <select id="getOrderItemSnapshots" resultMap="BaseResultMap">
+        select * from order_item_snapshot where order_id = #{orderId}
+    </select>
+
+    <select id="batchGetOrderItemSnapshots" resultMap="BaseResultMap">
+        select * from order_item_snapshot where order_id in(${orderSet})
+    </select>
+
+    <update id="receiptItem">
+        update order_item_snapshot set receipt_quantity = receipt_quantity + #{receiptQuantity}, distribution_quantity = distribution_quantity - #{receiptQuantity} where
+        id = #{itemSnapshotId} and distribution_quantity >= #{receiptQuantity}
+    </update>
+
+    <update id="shippingItem">
+        update order_item_snapshot set shipment_quantity = shipment_quantity + #{shippingQuantity} where id = #{itemSnapshotId} and (normal_quantity + discount_quantity) >=
+        (shipment_quantity + distribution_quantity + receipt_quantity + return_quantity + #{shippingQuantity})
+    </update>
+
+    <update id="distributionItem">
+        update order_item_snapshot set distribution_quantity = #{distributionCount}, shipment_quantity = shipment_quantity - #{distributionCount} where id = #{itemSnapshotId}
+        and shipment_quantity >= #{distributionCount}
+    </update>
+
+    <update id="totalDistributionItems">
+        update order_item_snapshot set distribution_quantity = normal_quantity + discount_quantity where id = #{itemSnapshotId}
+    </update>
+
+    <update id="arriveItem">
+        update order_item_snapshot set receipt_quantity = receipt_quantity + distribution_quantity, distribution_quantity = 0 where id = #{itemSnapshotId} and distribution_quantity > 0
+    </update>
+
+    <update id="modifyItemSnapshot">
+        update order_item_snapshot set normal_price = #{normalPrice}, discount_price = #{discountPrice}, normal_quantity = #{normalQuantity}, discount_quantity = #{discountQuantity}, total_price = #{totalPrice}
+        where order_id = #{orderId} and item_id = #{itemId}
+    </update>
+</mapper>

@@ -1,0 +1,90 @@
+<import src="../../template/temp-order.wxml"/>
+
+<view class="index cus-height-100">
+
+	<view class="tab">
+
+		<view class="item {{status.tabActive == 11 ? 'active':''}}" style="width: 25%" bindtap="onStatus" data-status-key="tabActive" data-status-val="11">全部</view>
+		<view class="item {{status.tabActive == 12 ? 'active':''}}" style="width: 25%" bindtap="onStatus" data-status-key="tabActive" data-status-val="12">待付款</view>
+		<view class="item {{status.tabActive == 13 ? 'active':''}}" style="width: 25%" bindtap="onStatus" data-status-key="tabActive" data-status-val="13">待收货</view>
+		<view class="item {{status.tabActive == 14 ? 'active':''}}" style="width: 25%" bindtap="onStatus" data-status-key="tabActive" data-status-val="14">退款</view>
+		<view class="liner" style="left: {{(status.tabActive - 11) * 25 +'%'}}"></view>
+	</view>
+
+   <scroll-view scroll-y="true" style="height: calc(100% - 45px);" bindscrolltoupper="onScrollTop" bindscrolltolower="onScrollBottom" enable-back-to-top="true">
+   		<template is="temp_orders" data="{{...item}}" wx:for="{{ordersData}}" wx:key="{{id}}"></template>
+   		<view style="height: 30px;">
+	   		<view  class="scrollUpStop {{status.scrollUpStop == true ? 'show':''}}">
+	   			没有数据啦....
+	   		</view>
+   		</view>
+<!-- 
+
+	   <view class="order">
+			<view class="hd">
+				<view class="left">淘金店</view>
+				<view class="right text-shallow">已完成</view>
+			</view>
+	   		<scroll-view scroll-x="true" style="height: 85;" class="bd space" bindtap="onOrderInfo" data-id="10000">
+	   			<view class="item">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" data-id="10000"></image>
+	   				<text  class="item-title" data-id="10000">广东 甘竹 鱼罐头 豆豉鲮鱼227g豆豉鲮鱼227g豆豉鲮鱼227g豆豉鲮鱼227g</text>
+	   			</view>
+	   		</scroll-view>
+			<view class="ft">
+				<view class="left text-small">共3件商品，实付款：<text class="text-large-15">￥21.90</text></view>
+				<view class="right">
+					<button type="primary" plain size="mini">再次购买</button>
+					<button type="primary" size="mini">去支付</button>
+					<button type="default" size="mini">查看详情</button>
+				</view>
+			</view>
+	   </view>
+
+	   <view class="order">
+			<view class="hd">
+				<view class="left">淘金店</view>
+				<view class="right text-main">待付款</view>
+			</view>
+	   		<scroll-view scroll-x="true" style="height: 85;" class="bd" bindtap="onOrderInfo" data-id="10000">
+	   			<view class="item multiple"  data-id="10000">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" data-id="10000"></image>
+	   				<text  class="item-title"  data-id="10000">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   			<view class="item multiple">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+	   				<text  class="item-title">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   			<view class="item multiple">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+	   				<text  class="item-title">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   			<view class="item multiple">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+	   				<text  class="item-title">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   			<view class="item multiple">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+	   				<text  class="item-title">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   			<view class="item multiple">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+	   				<text  class="item-title">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   			<view class="item multiple">
+	   				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+	   				<text  class="item-title">广东 甘竹 鱼罐头 豆豉鲮鱼227g</text>
+	   			</view>
+	   		</scroll-view>
+			<view class="ft">
+				<view class="left text-small">共3件商品，实付款：<text class="text-large-15">￥21.90</text></view>
+				<view class="right">
+					<button type="primary" plain size="mini">再次购买</button>
+					<button type="primary" size="mini">去支付</button>
+					<button type="default" size="mini">查看详情</button>
+				</view>
+			</view>
+	   </view> --> 
+   </scroll-view>
+
+</view>

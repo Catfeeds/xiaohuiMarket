@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.advert.data.mapper.AdvertPlayMapper">
+
+    <resultMap id="BaseResultMap" type="com.xlibao.advert.data.model.AdvertScreenInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="screen_id" property="screenID" jdbcType="BIGINT"/>
+        <result column="advert_id" property="advertID" jdbcType="BIGINT"/>
+        <result column="video_name" property="videoName" jdbcType="VARCHAR"/>
+        <result column="market_id" property="marketID"/>
+        <result column="market_name" property="marketName"/>
+        <result column="title" property="title"/>
+        <result column="begin_time" property="beginTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="is_down" property="isDown" jdbcType="BIGINT"/>
+        <result column="success_down_time" property="successDownTime"/>
+        <result column="play_status" property="playStatus" jdbcType="BIGINT"/>
+        <result column="play_order" property="playOrder" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
+        <result column="require_time" property="requireTime" jdbcType="VARCHAR"/>
+        <result column="play_remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="remark" property="advertRemark" jdbcType="VARCHAR"/>
+        <result column="mac" property="mac" jdbcType="VARCHAR"/>
+        <result column="code" property="sCode" jdbcType="VARCHAR"/>
+        <result column="time_size" property="timeSize" jdbcType="BIGINT"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime"/>
+        <result column="request_down_time" property="requestDownTime"/>
+        <result column="request_down_status" property="requestDownStatus"/>
+        <result column="group_id" property="groupID"/>
+        <result column="group_name" property="groupName"/>
+        <result column="style" property="style"/>
+
+
+        <!--<collection property="advertInfo" column="advert_id" ofType="com.xlibao.metadata.advert.AdvertInfo">
+            <id property="id" column="id"/>
+            <result column="advert_id" property="advertId" jdbcType="BIGINT"/>
+            <result column="title" property="title" jdbcType="VARCHAR"/>
+            <result column="time_type" property="timeType" jdbcType="BIGINT"/>
+            <result column="remark" property="remark" jdbcType="VARCHAR"/>
+            <result column="url" property="url" jdbcType="VARCHAR"/>
+            <result column="used" property="used" jdbcType="BIGINT"/>
+            <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        </collection>
+        <collection property="screenInfo" column="screen_id" ofType="com.xlibao.metadata.advert.ScreenInfo">
+            <id property="id" column="id"/>
+            <result column="screen_id" property="screenId"/>
+            <result column="market_id" property="marketId"/>
+            <result column="market_name" property="marketName"/>
+            <result column="size" property="size"/>
+            <result column="code" property="code"/>
+            <result column="mac" property="mac"/>
+            <result column="advert_count" property="advertCount"/>
+            <result column="used" property="used"/>
+        </collection>-->
+    </resultMap>
+
+
+    <select id="getAllAdvertInfo" resultMap="BaseResultMap">
+        SELECT IFNULL(r.is_down,0)as is_down,a.id as advert_id,a.*,b.*,s.*,g.group_id FROM advert_screen_info b JOIN advert_group g ON b.advert_id = g.group_id   JOIN advert_info a ON (g.advert_id= a.id)  JOIN screen_info s ON (b.screen_id = s.screen_id AND b.market_id = s.market_id) LEFT JOIN download_record r ON (g.group_id = r.group_id and g.advert_id = r.advert_id and b.screen_id=r.screen_id and b.market_id=r.market_id) WHERE a.is_delete !=1 AND s.used != 0 AND b.status=1 and g.is_delete!=1
+        AND IF(b.style=2,b.begin_time,NOW())>=NOW()
+        <if test="mac!=null">
+            AND s.mac = #{mac}
+        </if>
+        order by b.style DESC
+    </select>
+    <!--<select id="getAllAdvertInfo" resultMap="BaseResultMap">
+        SELECT * FROM advert_screen_info b JOIN advert_info a ON b.advert_id = a.advert_id JOIN screen_info s ON b.screen_id = s.screen_id;
+    </select>-->
+
+
+    <update id="updateIsDown">
+        UPDATE advert_screen_info b SET is_down = #{isDown},success_down_time = #{successDownTime} WHERE
+        advert_id = #{advertID} AND screen_id = #{screenID} AND market_id = #{marketID}
+    </update>
+
+    <select id="getAdvertTemplates" resultMap="BaseResultMap">
+        SELECT a.*,b.*,s.* FROM advert_screen_info b JOIN group_info a ON b.advert_id = a.id JOIN screen_info s ON (b.screen_id = s.screen_id AND b.market_id = s.market_id) WHERE a.is_delete!=1 AND s.used!=0 AND b.status=1
+        <if test="marketId != -1">
+            AND s.market_id = #{marketId}
+        </if>
+        <if test="code != null">
+            AND s.code = #{code}
+        </if>
+        <if test="title != null">
+            AND  a.group_name LIKE "%"#{title}"%"
+        </if>
+        <if test="beginTime!=null">
+            AND begin_time  <![CDATA[>=]]> #{beginTime}
+        </if>
+        <if test="endTime!=null">
+            AND end_time  <![CDATA[<=]]> #{endTime}
+        </if>
+        <if test="playStatus != -1">
+            AND play_status = #{playStatus}
+        </if>
+        ORDER BY b.create_time DESC limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <insert id="addAdvertInfoForScreen">
+        insert into advert_screen_info (market_id,screen_id,advert_id,begin_time,style,play_status,play_order,status,play_remark)
+        values (#{marketID},#{screenID},#{advertID},#{beginTime},#{style},0,#{playOrder},1,#{playRemark});
+    </insert>
+
+    <update id="updateAdvertInfoFromID">
+        UPDATE advert_screen_info SET market_id = #{cMarketID},screen_id = #{cScreenID},begin_time =#{beginTime},play_order=#{playOrder},play_remark=#{remark},style=#{style}
+        WHERE advert_id = #{advertID} AND screen_id = #{screenID} AND market_id = #{marketId}
+    </update>
+
+    <update id="deleteAdvertInfoFromID">
+        UPDATE advert_screen_info SET status = 0 WHERE advert_id = #{advertID} AND screen_id = #{screenID} AND market_id = #{marketID}
+    </update>
+
+    <select id="getAdvertInfoCount" resultType="int">
+        SELECT count(*) FROM advert_screen_info b JOIN group_info a ON b.advert_id = a.id JOIN screen_info s ON (b.screen_id = s.screen_id AND b.market_id = s.market_id) WHERE a.is_delete!=1 AND s.used!=0 AND b.status=1
+        <if test="marketId != -1">
+            AND s.market_id = #{marketId}
+        </if>
+        <if test="code != null">
+            AND s.code = #{code}
+        </if>
+        <if test="title != null">
+            AND  a.group_name LIKE "%"#{title}"%"
+        </if>
+        <if test="beginTime!=null">
+            AND begin_time  <![CDATA[>=]]> #{beginTime}
+        </if>
+        <if test="endTime!=null">
+            AND end_time  <![CDATA[<=]]> #{endTime}
+        </if>
+        <if test="playStatus != -1">
+            AND play_status = #{playStatus}
+        </if>
+</select>
+
+    <select id="getAdvertInfoFromID" resultMap="BaseResultMap">
+        SELECT a.*,b.*,s.* FROM advert_screen_info b JOIN group_info a ON (b.advert_id = a.id) JOIN screen_info s ON (b.screen_id = s.screen_id AND b.market_id = s.market_id) WHERE b.advert_id = #{advertID} AND b.screen_id = #{screenID} AND b.market_id = #{marketID}
+    </select>
+
+    <select id="getAdvertInfoFromScreenID" resultMap="BaseResultMap">
+        SELECT a.*,b.*,s.* FROM advert_screen_info b JOIN group_info a ON (b.advert_id = a.id) JOIN screen_info s ON (b.screen_id = s.screen_id AND b.market_id = s.market_id) WHERE b.screen_id = #{screenID}
+    </select>
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xlibao.purchase.data.mapper.PurchaseEntryMapper">
+  <resultMap id="BaseResultMap" type="com.xlibao.purchase.data.model.PurchaseEntry">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="warehouse_code" jdbcType="BIGINT" property="warehouseCode" />
+    <result column="supplier_id" jdbcType="BIGINT" property="supplierId" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="deposit_time" jdbcType="TIMESTAMP" property="depositTime" />
+    <result column="exception_remark" jdbcType="VARCHAR" property="exceptionRemark" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id,warehouse_code, supplier_id, status, deposit_time, exception_remark, coerce_remark, username, update_time, create_time,
+    is_delete
+  </sql>
+  <select id="searchPurchasePage" resultType="java.util.Map">
+    select p.id,w.warehouse_name,w.address,s.supplier_name,s.salesman_name,s.phone,p.status,date_format(p.create_time, '%Y-%c-%d %h:%i:%s' ) as create_time from purchase_entry p JOIN purchase_supplier s on p.supplier_id = s.id JOIN purchase_warehouse w ON p.warehouse_code = w.warehouse_code where p.is_delete != 1 and s.is_delete!=1 and w.is_delete!=1
+    <if test="supplierName!=null">
+      AND s.supplier_name  LIKE "%"#{supplierName}"%"
+    </if>
+    <if test="warehouseCode!=null">
+      AND p.warehouse_code = #{warehouseCode}
+    </if>
+    <if test="statusList!=null">
+      AND p.status in
+      <foreach collection="statusList" index="index" item="status" open="(" separator="," close=")">
+                   #{status}
+      </foreach>
+    </if>
+    order by p.create_time desc limit #{pageStartIndex}, #{pageSize}
+  </select>
+  <select id="searchPurchasePageCount" resultType="int">
+    select COUNT(1) from purchase_entry p JOIN purchase_supplier s on p.supplier_id = s.id JOIN purchase_warehouse w ON p.warehouse_code = w.warehouse_code where p.is_delete != 1 and s.is_delete!=1 and w.is_delete!=1
+    <if test="supplierName!=null">
+      AND s.supplier_name  LIKE "%"#{supplierName}"%"
+    </if>
+    <if test="warehouseCode!=null">
+      AND p.warehouse_code = #{warehouseCode}
+    </if>
+    <if test="statusList!=null">
+      AND p.status in
+      <foreach collection="statusList" index="index" item="status" open="(" separator="," close=")">
+        #{status}
+      </foreach>
+    </if>
+  </select>
+
+  <select id="getPurchase" parameterType="java.lang.Long" resultType="java.util.Map">
+    select p.id,w.warehouse_code,w.warehouse_name,w.address,s.id as supplierid,s.supplier_name,s.salesman_name,s.phone,p.status,p.exception_remark,p.create_time from purchase_entry p JOIN purchase_supplier s on p.supplier_id = s.id JOIN purchase_warehouse w ON p.warehouse_code = w.warehouse_code where p.is_delete != 1 and s.is_delete!=1 and w.is_delete!=1
+    AND p.id = #{id,jdbcType=BIGINT}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from purchase_entry
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from purchase_entry
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xlibao.purchase.data.model.PurchaseEntry">
+    insert into purchase_entry (id, supplier_id, status,
+    deposit_time, exception_remark, update_time,
+    create_time, is_delete)
+    values (#{id,jdbcType=BIGINT}, #{supplierId,jdbcType=BIGINT}, #{status,jdbcType=INTEGER},
+    #{depositTime,jdbcType=TIMESTAMP}, #{exceptionRemark,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP},
+    #{createTime,jdbcType=TIMESTAMP}, #{isDelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xlibao.purchase.data.model.PurchaseEntry" useGeneratedKeys="true" keyProperty="id">
+    insert into purchase_entry
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="warehouseCode != null">
+        warehouse_code,
+      </if>
+      <if test="supplierId != null">
+        supplier_id,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="depositTime != null">
+        deposit_time,
+      </if>
+      <if test="exceptionRemark != null">
+        exception_remark,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="warehouseCode != null">
+        #{warehouseCode,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="depositTime != null">
+        #{depositTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionRemark != null">
+        #{exceptionRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xlibao.purchase.data.model.PurchaseEntry">
+    update purchase_entry
+    <set>
+      <if test="warehouseCode != null">
+         warehouse_code= #{warehouseCode,jdbcType=BIGINT},
+      </if>
+      <if test="supplierId != null">
+        supplier_id = #{supplierId,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="depositTime != null">
+        deposit_time = #{depositTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="exceptionRemark != null">
+        exception_remark = #{exceptionRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="coerceRemark != null">
+        coerce_remark = #{coerceRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xlibao.purchase.data.model.PurchaseEntry">
+    update purchase_entry
+    set supplier_id = #{supplierId,jdbcType=BIGINT},
+    status = #{status,jdbcType=INTEGER},
+    deposit_time = #{depositTime,jdbcType=TIMESTAMP},
+    exception_remark = #{exceptionRemark,jdbcType=VARCHAR},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

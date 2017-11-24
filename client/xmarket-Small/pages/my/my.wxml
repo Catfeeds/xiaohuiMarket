@@ -1,0 +1,83 @@
+<view class="index">
+	<view class="hd {{status.islogin ? 'islogin' : ''}}"><!-- islogin -->
+		<view class="img-bj">
+			<image class="portrait" src="{{status.islogin ? userInfo.avatarUrl : icons.account.url}}" 
+			background-size="{{status.islogin ? '100%' : '60%'}}" background-repeat="no-repeat" background-position="center"
+			></image>
+			<view class="text-login"><text class="text-large">登录</text></view>
+		</view> 
+	    <view class="info">
+	    	<view><text>{{userInfo.nickName}}</text></view>
+	    	<view><text>185****0624</text></view>	
+	    </view>
+	</view>
+	
+	<view class="buts">
+		<view class="item">
+			<image class="icon" src="{{icons.order.url}}" style="width: {{icons.order.w}};height:{{icons.order.h}};"></image>
+			<view><text>全部订单</text></view>
+		</view>
+		<view class="item">
+			<image class="icon" src="{{icons.payment.url}}" style="width: {{icons.payment.w}};height:{{icons.payment.h}};"></image>
+			<view><text>待付款</text></view>
+		</view>
+		<view class="item">
+			<image class="icon" src="{{icons.receipt.url}}" style="width: {{icons.receipt.w}};height:{{icons.receipt.h}};"></image>
+			<view><text>待收货</text></view>
+		</view>
+		<view class="item">
+			<image class="icon" src="{{icons.refunds.url}}" style="width: {{icons.refunds.w}};height:{{icons.refunds.h}};"></image>
+			<view><text>退款</text></view>
+		</view>
+	</view>
+
+	<block wx:if="{{!status.islogin}}">
+		<view class="list justify" style="margin-top: 10px;">
+			<view class="item">
+				<view><text>常见问题</text></view>
+				<view><text class="navigator-arrow"></text></view>
+			</view>
+		</view>
+	</block>
+	<block wx:else>
+	<view class="list justify" style="margin-top: 10px;">
+		<view class="item">
+			<view><text>用户名</text></view>
+			<view><text class="text-shallow">185****0624</text></view>
+		</view>
+		<view class="item">
+			<view><text>昵称</text></view>
+			<view bindtap="onGo" data-url="edit?tempName=userName">
+				<text class="text-shallow" data-url="edit?tempName=userName">吐烟圈的老牛先生</text>
+				<text class="navigator-arrow" data-url="edit?tempName=userName"></text>
+			</view>
+		</view>
+		<view class="item">
+			<view><text>头像</text></view>
+			<view><text class="navigator-arrow"></text></view>
+		</view>
+	</view>
+
+	<view class="list justify" style="margin-top: 10px;">
+		<view class="item">
+			<view><text>登录密码</text></view>
+			<view>
+				<text class="text-shallow">修改</text>
+				<text class="navigator-arrow"></text>
+			</view>
+		</view>
+		<view class="item">
+			<view><text>收货地址</text></view>
+			<view><text class="navigator-arrow"></text></view>
+		</view>
+		<view class="item">
+			<view><text>常见问题</text></view>
+			<view><text class="navigator-arrow"></text></view>
+		</view>
+	</view>
+
+	<view class="logout" style="margin-top: 10px;">
+		<text class="text-main">退出登录</text>
+	</view>
+	</block>
+</view>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.item.MarketItemStockLockLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketItemStockLockLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_sequence_number" property="orderSequenceNumber" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="item_template_id" property="itemTemplateId" jdbcType="BIGINT"/>
+        <result column="lock_quantity" property="lockQuantity" jdbcType="INTEGER"/>
+        <result column="lock_type" property="lockType" jdbcType="INTEGER"/>
+        <result column="lock_status" property="lockStatus" jdbcType="INTEGER"/>
+        <result column="lock_time" property="lockTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createItemStockLogger">
+        insert into market_item_stock_lock_logger(order_sequence_number, item_id, item_template_id, lock_quantity, lock_type, lock_status, lock_time)
+        values(#{orderSequenceNumber}, #{itemId}, #{itemTemplateId}, #{lockQuantity}, #{lockType}, #{lockStatus}, #{lockTime})
+    </insert>
+
+    <select id="getItemStockLockLoggers" resultMap="BaseResultMap">
+        select * from market_item_stock_lock_logger where order_sequence_number = #{orderSequenceNumber} and lock_type = #{key} and lock_status = #{status}
+    </select>
+
+    <select id="findInvalidItemStockLockLoggers" resultMap="BaseResultMap">
+        select * from market_item_stock_lock_logger where lock_status = #{status} and lock_time &lt;= #{timeout}
+    </select>
+
+    <update id="modifyStockLockStatus">
+        update market_item_stock_lock_logger set lock_status = #{status} where id = #{id}
+    </update>
+
+    <update id="releaseTimeoutItemLockStock">
+        update market_item_stock_lock_logger set lock_status = #{status} where lock_status = #{matchStatus} and lock_time &lt;= #{timeout}
+    </update>
+</mapper>

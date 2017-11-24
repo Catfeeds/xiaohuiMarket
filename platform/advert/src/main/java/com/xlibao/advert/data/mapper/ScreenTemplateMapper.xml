@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.advert.data.mapper.ScreenTemplateMapper">
+
+    <resultMap id="BaseResultMap" type="com.xlibao.advert.data.model.ScreenInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="screen_id" property="screenID"/>
+        <result column="market_id" property="marketId"/>
+        <result column="market_name" property="marketName" jdbcType="VARCHAR"/>
+        <result column="require_time" property="requireTime" jdbcType="VARCHAR"/>
+        <result column="screen_size" property="screenSize"/>
+        <result column="code" property="code"/>
+        <result column="mac" property="mac" jdbcType="VARCHAR"/>
+        <result column="advert_count" property="advertCount" jdbcType="BIGINT"/>
+        <result column="used" property="used" jdbcType="BIGINT"/>
+        <result column="screen_remark" property="screenRemark"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getScreenTemplateList" resultMap="BaseResultMap">
+        SELECT * FROM screen_info WHERE used !=0
+        <if test="code!=null">
+            AND code = #{code}
+        </if>
+        <if test="marketId!=-1">
+            AND market_id = #{marketId}
+        </if>
+        <if test="screenSize!=null">
+            AND screen_size = #{screenSize,jdbcType=VARCHAR}
+        </if>
+        ORDER BY create_time DESC limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+
+    <select id="getScreenInfoFromMAC" resultMap="BaseResultMap">
+        SELECT * FROM screen_info WHERE mac = #{mac}
+    </select>
+
+    <insert id="addScreenInfo" parameterType="com.xlibao.advert.data.model.ScreenInfo">
+        insert into screen_info (screen_id,market_id,market_name,require_time,screen_size,code,mac,advert_count,used,screen_remark)
+        values (#{screenID},#{marketId},#{marketName},#{requireTime},#{screenSize},#{code},#{mac},#{advertCount},#{used},#{screenRemark});
+    </insert>
+
+    <select id="getMaxScreenID" resultType="int">
+        SELECT Max(screen_id) FROM screen_info;
+    </select>
+
+    <update id="deleteScreenFromID" >
+        UPDATE screen_info SET used = 0 WHERE screen_id = #{screenID} AND market_id = #{marketID}
+    </update>
+
+    <select id="getScreenCount" resultType="int">
+        SELECT count(*) FROM screen_info WHERE used!=0;
+    </select>
+
+    <select id="getAllScreenInfo" resultMap="BaseResultMap">
+        SELECT * FROM screen_info WHERE used!=0
+        <if test="marketId!=-1">
+            AND market_id = #{marketId}
+        </if>
+    </select>
+
+    <select id="isMarketExist" resultType="int">
+        SELECT count(*) FROM screen_info WHERE market_id = #{marketID}
+    </select>
+
+    <select id="getMaxScreenIDWithMarketID" resultType="int">
+        SELECT max(screen_id) FROM screen_info where market_id = #{marketID}
+    </select>
+
+    <select id="getScreenInfoFromAdvertID" resultMap="BaseResultMap">
+    SELECT s.* FROM advert_screen_info b   JOIN advert_group g ON b.advert_id=g.group_id  JOIN advert_info a ON (g.advert_id = a.id) JOIN screen_info s ON (b.screen_id = s.screen_id AND b.market_id = s.market_id)
+    where b.status!=0 and a.is_delete!=1 and s.used=1  and a.advert_id = #{advertID}
+    </select>
+</mapper>

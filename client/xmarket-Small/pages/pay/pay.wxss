@@ -1,0 +1,112 @@
+/**pay.wxss**/
+
+page{
+  background: #EFEFF4;
+}
+
+/** 导航 **/
+.navbar{
+  background: #F4F4F4!important;
+}
+.navbar .item {
+  padding-left: 15px;
+  color: #717171;
+}
+ 
+/** 支付面板 **/
+.tab{
+  margin-top: 10px;
+  background: #fff;
+  border-top: 1px solid #E5E5E5;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+
+
+.justify {
+  background: #fff;
+}
+.justify .item{
+  display:-webkit-box;
+  -webkit-box-pack:justify;
+  margin-left:15px;
+  padding-right:15px;
+  width:auto;
+}
+
+.justify .item::before {
+  left:5rpx;
+  right:0;
+  border-top:1rpx solid #E5E5E5;
+}
+
+.justify .item-before::before {
+  left:-50rpx;
+}
+
+
+ 
+
+
+
+.payPanel .navigator-text{
+  font-size:15px;
+  padding: 10px;
+  position: relative;
+
+}
+
+.payPanel .navigator-text .store{
+  font-size: 16px;
+  display: block;
+  line-height: 30px;
+}
+.payPanel .navigator-text .addres{
+  font-size: 14px;
+  display: block;
+  color: #898989;
+}
+.payPanel .navigator-text icon{
+  position:absolute;
+  right:10px;
+  top:20px;
+}
+
+.payInfo{
+  position: absolute;
+  bottom: 0px;
+  width:100%;
+}
+.payInfo .cell{
+  text-align: right;
+  padding: 2px 8px;
+}
+.payInfo .cell .text-danger{
+  display: inline-block;
+  color: #ff3300;
+  width:60px;
+}
+.payInfo .cell .text-muted{
+  display: inline-block;
+  color: #999!important;
+  width:60px;
+}
+.payInfo .cell .fsize{
+  font-size: 20px;
+}
+.payInfo .buts{
+  padding:8px;
+  margin:0 auto;
+  width: 60%;
+}
+
+
+.navigator-arrow::after{
+  right:2px;
+}
+
+
+
+
+
+

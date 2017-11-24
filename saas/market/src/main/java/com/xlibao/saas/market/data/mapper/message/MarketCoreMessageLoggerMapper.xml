@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.xlibao.saas.market.data.mapper.message.MarketCoreMessageLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.saas.market.data.model.MarketCoreMessageLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+        <result column="origin_ip" property="originIp" jdbcType="VARCHAR"/>
+        <result column="launch time" property="launchTime" jdbcType="TIMESTAMP"/>
+        <result column="launch_status" property="launchStatus" jdbcType="INTEGER"/>
+        <result column="target_ip" property="targetIp" jdbcType="VARCHAR"/>
+        <result column="target_mark" property="targetMark" jdbcType="VARCHAR"/>
+        <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP"/>
+        <result column="need_callback" property="needCallback" jdbcType="TINYINT"/>
+        <result column="callback_time" property="callbackTime" jdbcType="TIMESTAMP"/>
+        <result column="callback_status" property="callbackStatus" jdbcType="INTEGER"/>
+        <result column="notify_time" property="notifyTime" jdbcType="TIMESTAMP"/>
+        <result column="notify_status" property="notifyStatus" jdbcType="INTEGER"/>
+        <result column="notify_msg" property="notifyMsg" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="createMessageLogger">
+        insert into market_core_message_logger(market_id, keyword, origin_ip, launch_time, launch_status, target_mark, need_callback) values(#{marketId}, #{keyword}, #{originIp}, #{launchTime}, #{launchStatus}, #{targetMark}, #{needCallback});
+    </insert>
+
+    <select id="getMessageLogger" resultMap="BaseResultMap">
+        select * from market_core_message_logger where market_id = #{marketId} and keyword = #{keyword}
+    </select>
+</mapper>

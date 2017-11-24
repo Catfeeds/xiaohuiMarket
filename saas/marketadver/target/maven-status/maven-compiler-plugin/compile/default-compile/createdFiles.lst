@@ -1,0 +1,7 @@
+com\xlibao\saas\market\adver\config\ConfigFactory.class
+com\xlibao\saas\market\adver\controller\UploadController.class
+com\xlibao\saas\market\adver\service\uploadService\impl\uploadServiceImpl.class
+com\xlibao\saas\market\adver\service\uploadService\uploadService.class
+com\xlibao\saas\market\adver\config\QiNiuConfig.class
+com\xlibao\saas\market\adver\ModelAndViewAop.class
+com\xlibao\saas\market\adver\BaseFreeMarkerView.class

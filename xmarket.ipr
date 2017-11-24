@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AntConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="CodeStyleManager">
+    <option name="USE_DEFAULT_CODE_STYLE_SCHEME" value="true" />
+    <option name="CODE_STYLE_SCHEME" value="" />
+  </component>
+  <component name="CompilerConfiguration">
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+    </wildcardResourcePatterns>
+  </component>
+  <component name="EntryPointsManager">
+    <entry_points />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="PRINT_LINE_NUMBERS" value="false" />
+    <option name="OPEN_IN_BROWSER" value="false" />
+    <option name="OUTPUT_DIRECTORY" />
+  </component>
+  <component name="ImportConfiguration">
+    <option name="VENDOR" />
+    <option name="RELEASE_TAG" />
+    <option name="LOG_MESSAGE" />
+    <option name="CHECKOUT_AFTER_IMPORT" value="true" />
+  </component>
+  <component name="InspectionProjectProfileManager">
+    <profile version="1.0">
+      <option name="myName" value="Project Default" />
+    </profile>
+    <version value="1.0" />
+  </component>
+  <component name="JUnitProjectSettings">
+    <option name="TEST_RUNNER" value="UI" />
+  </component>
+  <component name="JavacSettings">
+    <option name="DEBUGGING_INFO" value="true" />
+    <option name="GENERATE_NO_WARNINGS" value="false" />
+    <option name="DEPRECATION" value="true" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
+    <option name="MAXIMUM_HEAP_SIZE" value="128" />
+    <option name="USE_GENERICS_COMPILER" value="false" />
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" />
+    <option name="OPTION_SCOPE" value="protected" />
+    <option name="OPTION_HIERARCHY" value="false" />
+    <option name="OPTION_NAVIGATOR" value="false" />
+    <option name="OPTION_INDEX" value="false" />
+    <option name="OPTION_SEPARATE_INDEX" value="false" />
+    <option name="OPTION_USE_1_1" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="false" />
+    <option name="OPTION_DEPRECATED_LIST" value="false" />
+    <option name="OTHER_OPTIONS" />
+    <option name="HEAP_SIZE" />
+    <option name="OPEN_IN_BROWSER" value="false" />
+  </component>
+  <component name="JikesSettings">
+    <option name="DEBUGGING_INFO" value="true" />
+    <option name="DEPRECATION" value="true" />
+    <option name="GENERATE_NO_WARNINGS" value="false" />
+    <option name="GENERATE_MAKE_FILE_DEPENDENCIES" value="false" />
+    <option name="DO_FULL_DEPENDENCE_CHECK" value="false" />
+    <option name="IS_INCREMENTAL_MODE" value="false" />
+    <option name="IS_EMACS_ERRORS_MODE" value="true" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="" />
+    <option name="MAXIMUM_HEAP_SIZE" value="128" />
+  </component>
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/platform/advert/advert.iml" filepath="$PROJECT_DIR$/platform/advert/advert.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons/common/common.iml" filepath="$PROJECT_DIR$/commons/common/common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons/commons.iml" filepath="$PROJECT_DIR$/commons/commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons/datamanager/datamanager.iml" filepath="$PROJECT_DIR$/commons/datamanager/datamanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons/datamodel/datamodel.iml" filepath="$PROJECT_DIR$/commons/datamodel/datamodel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/commons/define_io/define_io.iml" filepath="$PROJECT_DIR$/commons/define_io/define_io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/item/item.iml" filepath="$PROJECT_DIR$/platform/item/item.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/market/market.iml" filepath="$PROJECT_DIR$/saas/market/market.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/marketadver/marketadver.iml" filepath="$PROJECT_DIR$/saas/marketadver/marketadver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/marketcore/marketcore.iml" filepath="$PROJECT_DIR$/saas/marketcore/marketcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/marketmanager/marketmanager.iml" filepath="$PROJECT_DIR$/saas/marketmanager/marketmanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/marketmodel/marketmodel.iml" filepath="$PROJECT_DIR$/saas/marketmodel/marketmodel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/marketshop/marketshop.iml" filepath="$PROJECT_DIR$/saas/marketshop/marketshop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/order/order.iml" filepath="$PROJECT_DIR$/platform/order/order.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/passport/passport.iml" filepath="$PROJECT_DIR$/platform/passport/passport.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/payment/payment.iml" filepath="$PROJECT_DIR$/platform/payment/payment.iml" />
+      <module fileurl="file://$PROJECT_DIR$/platform/platform.iml" filepath="$PROJECT_DIR$/platform/platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/saas.iml" filepath="$PROJECT_DIR$/saas/saas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/saas/test/test.iml" filepath="$PROJECT_DIR$/saas/test/test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xmarket.iml" filepath="$PROJECT_DIR$/xmarket.iml" />
+    </modules>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" />
+</project>

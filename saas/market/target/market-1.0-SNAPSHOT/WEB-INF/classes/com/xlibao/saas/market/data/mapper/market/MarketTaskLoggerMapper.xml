@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.market.MarketTaskLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketTaskLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="item_location" property="itemLocation" jdbcType="VARCHAR"/>
+        <result column="executor_passport_id" property="executorPassportId" jdbcType="BIGINT"/>
+        <result column="item_template_id" property="itemTemplateId" jdbcType="BIGINT"/>
+        <result column="item_quantity" property="itemQuantity" jdbcType="INTEGER"/>
+        <result column="hope_item_quantity" property="hopeItemQuantity" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="mark" property="mark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createTaskLogger">
+        insert into market_task_logger(market_id, item_location, executor_passport_id, item_template_id, item_quantity, hope_item_quantity, type, mark, create_time)
+        values(#{marketId}, #{itemLocation}, #{executorPassportId}, #{itemTemplateId}, #{itemQuantity}, #{hopeItemQuantity}, #{type}, #{mark}, #{createTime})
+    </insert>
+
+    <select id="getTaskLoggers" resultMap="BaseResultMap">
+        select * from market_task_logger where executor_passport_id = #{passportId} and market_id = #{marketId} order by id limit #{pageStartIndex}, #{pageSize}
+    </select>
+</mapper>

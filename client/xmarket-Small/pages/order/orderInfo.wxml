@@ -1,0 +1,133 @@
+<import src="../../template/temp-goods.wxml"/>
+<view class="index">
+<!-- 
+{
+    "sequenceNumber":"90820170815173208513526183",
+    "targetName":"小惠便利店",
+    "address":"",
+    "addressTitle":"取货地址：",
+    "orderId":100018,
+    "actualPrice":71,
+    "statusValue":"待支付",
+    "targetTitle":"取货点：",
+    "distributionFee":0,
+    "discountPrice":0,
+    "orderStatus":1,
+    "deliverType":1,
+    "deliverValue":"到店自提",
+    "createTime":"2017-08-15 17:32:09",
+    "deliverTitle":"配送进度",
+    "deliverResult":"已取货",
+    "items":[
+        {
+            "itemTemplateId":100001,
+            "itemId":100001,
+            "image":"http://ksupplychain.oss-cn-shenzhen.aliyuncs.com/supplychain/items/i_100056.jpg",
+            "itemName":"哈尔滨（冰纯）330ml",
+            "quantity":3,
+            "price":11,
+            "itemSnapshotId":100037
+        },
+        {
+            "itemTemplateId":100002,
+            "itemId":100002,
+            "image":"http://ksupplychain.oss-cn-shenzhen.aliyuncs.com/supplychain/items/i_100057.jpg",
+            "itemName":"哈尔滨（冰纯）500ml",
+            "quantity":1,
+            "price":12,
+            "itemSnapshotId":100038
+        },
+        {
+            "itemTemplateId":100003,
+            "itemId":100003,
+            "image":"http://ksupplychain.oss-cn-shenzhen.aliyuncs.com/supplychain/items/i_100058.jpg",
+            "itemName":"哈尔滨（冰纯）600ml",
+            "quantity":2,
+            "price":13,
+            "itemSnapshotId":100039
+        }
+    ],
+    "orderSequenceNumber":"190820170815173209893575711",
+    "totalItemQuantity":6
+}
+ -->
+	<view class="list justify">
+		<view class="item">
+			<view><text class="text-shallow">订单编号</text></view>
+			<view><text>{{order.sequenceNumber}}</text></view>
+		</view>
+		<view class="item">
+			<view><text class="text-shallow">下单时间</text></view>
+			<view><text>{{order.createTime}}</text></view>
+		</view>
+		<view class="item">
+			<view><text class="text-shallow">收货方式</text></view>
+			<view><text>{{order.deliverValue}}</text></view>
+		</view>
+		<view class="item">
+			<view><text class="text-shallow">状      态</text></view>
+			<view><text>{{order.statusValue}}</text></view>
+		</view>
+		<view class="item item-before">
+			<view></view>
+			<view>
+				<button wx:if="{{order.orderStatus == 1}}" type="primary" size="mini">去支付</button>
+				<button wx:if="{{order.deliverType == 1 && order.orderStatus < 128 && order.orderStatus > 1}}" type="default" size="mini">申请退款</button>
+				<button wx:if="{{order.deliverType == 1 && order.orderStatus == 64}}" type="primary" size="mini">扫码取货</button>
+				<button wx:if="{{order.deliverType == 2 && order.orderStatus < 32}}" type="default" size="mini">申请退款</button>
+			</view>
+		</view>
+	</view>
+
+	<view class="list justify" style="margin: 10px auto">
+		<view class="item">
+			<view><text class="text-shallow">{{order.deliverTitle}}</text></view>
+			<view><text class="text-main">{{order.deliverResult}}</text></view>
+		</view>
+	</view>
+
+	<view class="list justify">
+		<view class="item">
+			<view><text class="text-shallow">商品总额</text></view>
+			<view><text>¥{{order.actualPrice / 100}}</text></view>
+		</view>
+		<view class="item">
+			<view><text class="text-shallow">运      费</text></view>
+			<view><text>¥{{order.distributionFee / 100}}</text></view>
+		</view>
+		<view class="item">
+			<view><text class="text-shallow">{{order.addressTitle}}</text></view>
+			<view><text>{{order.address}}</text></view>
+		</view>
+		<view wx:if="{{order.target}}" class="item">
+			<view><text class="text-shallow">{{order.targetTitle}}</text></view>
+			<view><text>{{order.target}}</text></view>
+		</view>
+		<!-- 
+		<view class="item">
+			<view><text class="text-shallow">收货人</text></view>
+			<view><text>陈先生</text></view>
+		</view>
+		<view class="item">
+			<view><text class="text-shallow">电     话</text></view>
+			<view><text>158****8987</text></view>
+		</view> 
+		-->
+		<view class="item item-before">
+			<view><text class="text-shallow">共{{order.totalItemQuantity}}件商品，实付款</text></view>
+			<view class="text-main">￥<text class="text-large-2x">{{order.actualPrice}}</text></view>
+		</view>
+		<view class="item item-before text-shallow">
+			<view><text>节      省</text></view>
+			<view><text>¥{{order.discountPrice}}</text></view>
+		</view>
+	</view>
+
+	<view class="list" style="margin: 10px auto">
+		<view class="item">
+			<view><text class="text-shallow" style="padding-left: 10px">{{order.targetName}}</text></view>
+		</view>
+		<template is="temp_goods_info" data="{{...item}}" wx:for="{{order.items}}" wx:key="{{id}}"/>
+	</view>
+
+</view>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentCurrencyOffsetLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentCurrencyOffsetLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="channel_id" property="channelId" jdbcType="INTEGER"/>
+        <result column="currency_type" property="currencyType" jdbcType="INTEGER"/>
+        <result column="before_amount" property="beforeAmount" jdbcType="BIGINT"/>
+        <result column="offset_amount" property="offsetAmount" jdbcType="BIGINT"/>
+        <result column="after_amount" property="afterAmount" jdbcType="BIGINT"/>
+        <result column="trans_title" property="transTitle" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="VARCHAR"/>
+        <result column="relation_trans_type" property="relationTransType" jdbcType="INTEGER"/>
+        <result column="relation_trans_sequence" property="relationTransSequence" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createCurrencyOffsetLogger">
+        insert into payment_currency_offset_logger(passport_id, channel_id, currency_type, before_amount, offset_amount, after_amount, trans_title, trans_type, relation_trans_type, relation_trans_sequence)
+        values(#{passportId}, #{channelId}, #{currencyType}, #{beforeAmount}, #{offsetAmount}, #{afterAmount}, #{transTitle}, #{transType}, #{relationTransType}, #{relationTransSequence})
+    </insert>
+
+    <select id="getCurrencyOffsetLogger" resultMap="BaseResultMap">
+        select * from payment_currency_offset_logger where id = #{id}
+    </select>
+
+    <select id="getCurrencyOffsetLoggers" resultMap="BaseResultMap">
+        select * from payment_currency_offset_logger where passport_id = #{passportId} and currency_type = #{currencyType} order by id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getCurrencyOffsetLoggersForDate" resultMap="BaseResultMap">
+        select * from payment_currency_offset_logger where passport_id = #{passportId} and currency_type = #{currencyType} and create_time like concat(#{dateTime}, '%') order by id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="incomeForDate" resultType="Long">
+        select ifnull(sum(offset_amount), 0) from payment_currency_offset_logger where passport_id = #{passportId} and currency_type = #{currencyType} and create_time like concat(#{dateTime}, '%')
+    </select>
+
+    <select id="dailyAmountStatistics" resultType="Map">
+        select date_format(create_time, '%Y-%m-%d') ymd, count(*) c, ifnull(sum(offset_amount), 0) s from payment_currency_offset_logger where passport_id = #{passportId} and currency_type = #{currencyType} and (create_time between #{beginTime} and #{endTime})
+        group by ymd
+    </select>
+
+    <select id="getCurrencyOffsetLoggersForTransType" resultMap="BaseResultMap">
+        select * from payment_currency_offset_logger where passport_id = #{passportId} and currency_type = #{currencyType} and trans_type = #{transType}
+          <if test="balanceType == 2"> and offset_amount > 0 </if>
+          <if test="balanceType == 3"> and offset_amount &lt; 0 </if>
+        order by id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+</mapper>

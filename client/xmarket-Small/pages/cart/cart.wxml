@@ -1,0 +1,36 @@
+<import src="../../template/temp-goods.wxml"/>
+
+<view class="index cus-height-100">
+	<view class="navbar" style="background:#f4f4f4">
+		<view class="item left">
+			<checkbox style="transform:scale(.6);" data-check="{{status.checkAll}}" checked="{{status.checkAll ? 'checked':''}}" catchtap="onCartCheckAll"></checkbox>
+			全选 <text class="text-muted text-small">（共选 {{checkTotal.speciesNum || 0}} 件）</text>
+		</view>
+		<view class="item" data-type="REMOVER" catchtap="onCart" style="width:120px;"> 
+			<image class="icon" src="{{icons.trash.url}}" style="width: {{icons.trash.w}};height:{{icons.trash.h}}; position: relative;top:-1px;right:4px;"></image>
+			<text>清空购物车</text>
+		</view>
+	</view>
+
+	<scroll-view class="list" scroll-y="true" style="height:calc(100% - 91px)">
+		<template is="temp_goods_cart" data="{{...item}}" wx:for="{{cartData}}" wx:key="{{id}}"/>
+	</scroll-view>
+
+
+	<view class="cartnav">
+		<view class="item">
+			<label class="checkbox">
+				<checkbox style="transform:scale(.6);" data-check="{{status.checkAll}}" checked="{{status.checkAll ? 'checked':''}}" catchtap="onCartCheckAll"></checkbox>
+				全选
+			</label>
+		</view>
+		<view class="item center">
+			<view class="text-small-1x">合计：￥<text class="text-large-2x">{{cartTotal.totalMoney / 100}}</text></view>
+			<view class="text-small-1x">节省：￥0.00</view>
+		</view>
+		<navigator class="item right" style="font-size: 17px;" hover-class="navigator-hover" url="../pay/pay">
+			去结算
+			<text class="text-small">({{checkTotal.totalNum}}件)</text>
+		</navigator>
+	</view>
+</view>	

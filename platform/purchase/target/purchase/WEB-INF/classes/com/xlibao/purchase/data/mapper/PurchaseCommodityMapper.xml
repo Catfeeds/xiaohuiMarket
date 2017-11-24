@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xlibao.purchase.data.mapper.PurchaseCommodityMapper">
+  <resultMap id="BaseResultMap" type="com.xlibao.purchase.data.model.PurchaseCommodity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="purchase_id" jdbcType="BIGINT" property="purchaseId" />
+    <result column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="barcode" jdbcType="VARCHAR" property="barcode" />
+    <result column="item_type_id" jdbcType="BIGINT" property="itemTypeId" />
+    <result column="item_type_title" jdbcType="VARCHAR" property="itemTypeTitle" />
+    <result column="purchase_time" jdbcType="DATE" property="purchaseTime" />
+    <result column="purchase_number" jdbcType="INTEGER" property="purchaseNumber" />
+    <result column="deposit_time" jdbcType="TIMESTAMP" property="depositTime" />
+    <result column="deposit_number" jdbcType="INTEGER" property="depositNumber" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, purchase_id, item_id,item_name,barcode,item_type_id,item_type_title, purchase_time, purchase_number, deposit_time, deposit_number,
+    update_time, create_time, is_delete
+  </sql>
+  <select id="getPurchaseCommodityS" resultMap="BaseResultMap">
+    SELECT c.* from purchase_entry e join purchase_commodity c on e.id = c.purchase_id  where e.is_delete !=1 and c.is_delete!=1
+    <if test="purchaseId != -1">
+      AND purchase_id = #{purchaseId}
+    </if>
+  </select>
+  <select id="getSupplierCommodityS" resultMap="BaseResultMap">
+    SELECT w.warehouse_name, c.* from purchase_entry e join purchase_commodity c on e.id = c.purchase_id  join purchase_warehouse w on w.warehouse_code  = e.warehouse_code where e.is_delete !=1 and c.is_delete!=1 and w.is_delete!=1
+    <if test="supplierId != -1">
+      AND e.supplier_id = #{supplierId}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select  * from    purchase_commodity
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from purchase_commodity
+    where purchase_id = #{purchaseId}
+  </delete>
+  <insert id="insert" parameterType="com.xlibao.purchase.data.model.PurchaseCommodity">
+    insert into purchase_commodity (id, purchase_id, item_id,item_name,item_type_id,item_type_title,
+    purchase_time, purchase_number, deposit_time,
+    deposit_number, update_time, create_time,
+    is_delete)
+    values (#{id,jdbcType=BIGINT}, #{purchaseId,jdbcType=BIGINT}, #{itemId,jdbcType=BIGINT},#{itemName,jdbcType=VARCHAR},
+    #{itemTypeId,jdbcType=BIGINT},#{itemTypeTitle,jdbcType=VARCHAR},
+    #{purchaseTime,jdbcType=DATE}, #{purchaseNumber,jdbcType=INTEGER}, #{depositTime,jdbcType=TIMESTAMP},
+    #{depositNumber,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+    #{isDelete,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xlibao.purchase.data.model.PurchaseCommodity">
+    insert into purchase_commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="barcode != null">
+        barcode,
+      </if>
+      <if test="itemTypeId != null">
+        item_type_id,
+      </if>
+      <if test="itemTypeTitle != null">
+        item_type_title,
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time,
+      </if>
+      <if test="purchaseNumber != null">
+        purchase_number,
+      </if>
+      <if test="depositTime != null">
+        deposit_time,
+      </if>
+      <if test="depositNumber != null">
+        deposit_number,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+         #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemTypeId != null">
+        #{itemTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="itemTypeTitle != null">
+        #{itemTypeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseTime != null">
+        #{purchaseTime,jdbcType=DATE},
+      </if>
+      <if test="purchaseNumber != null">
+        #{purchaseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="depositTime != null">
+        #{depositTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="depositNumber != null">
+        #{depositNumber,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xlibao.purchase.data.model.PurchaseCommodity">
+    update purchase_commodity
+    <set>
+      <if test="purchaseId != null">
+        purchase_id = #{purchaseId,jdbcType=BIGINT},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="itemName != null">
+        item_name =  #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="barcode != null">
+        barcode = #{barcode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemTypeId != null">
+        item_type_id = #{itemTypeId,jdbcType=BIGINT},
+      </if>
+      <if test="itemTypeTitle != null">
+        item_type_title =  #{itemTypeTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseTime != null">
+        purchase_time = #{purchaseTime,jdbcType=DATE},
+      </if>
+      <if test="purchaseNumber != null">
+        purchase_number = #{purchaseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="depositTime != null">
+        deposit_time = #{depositTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="depositNumber != null">
+        deposit_number = #{depositNumber,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updatePurchaseCommodity" parameterType="com.xlibao.purchase.data.model.PurchaseCommodity">
+    update purchase_commodity
+    <set>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+    </set>
+    where purchase_id = #{purchaseId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xlibao.purchase.data.model.PurchaseCommodity">
+    update purchase_commodity
+    set purchase_id = #{purchaseId,jdbcType=BIGINT},
+    item_id = #{itemId,jdbcType=BIGINT},
+    item_name =  #{itemName,jdbcType=VARCHAR},
+    item_type_id = #{itemTypeId,jdbcType=BIGINT},
+    item_type_title =  #{itemTypeTitle,jdbcType=VARCHAR},
+    purchase_time = #{purchaseTime,jdbcType=DATE},
+    purchase_number = #{purchaseNumber,jdbcType=INTEGER},
+    deposit_time = #{depositTime,jdbcType=TIMESTAMP},
+    deposit_number = #{depositNumber,jdbcType=INTEGER},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    is_delete = #{isDelete,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

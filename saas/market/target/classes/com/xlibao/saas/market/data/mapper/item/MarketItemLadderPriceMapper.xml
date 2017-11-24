@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.item.MarketItemLadderPriceMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketItemLadderPrice">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="min_quantity" property="minQuantity" jdbcType="INTEGER"/>
+        <result column="max_quantity" property="maxQuantity" jdbcType="INTEGER"/>
+        <result column="expect_price" property="expectPrice" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="mark" property="mark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createItemLadderPrice">
+        insert into market_item_ladder_price(item_id, min_quantity, max_quantity, expect_price, status, mark, create_time)
+        values(#{itemId}, #{minQuantity}, #{maxQuantity}, #{expectPrice}, #{status}, #{mark}, #{createTime})
+    </insert>
+
+    <select id="loadItemLadderPrices" resultMap="BaseResultMap">
+        select * from market_item_ladder_price where item_id in (${itemSet}) and status = 1 order by min_quantity desc
+    </select>
+
+    <update id="removeItemLadderPrice">
+        delete from market_item_ladder_price where id = #{itemLadderId} and item_id = #{itemId}
+    </update>
+</mapper>

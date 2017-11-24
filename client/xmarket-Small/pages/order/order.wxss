@@ -1,0 +1,128 @@
+/**my.wxss**/
+
+
+.index{
+  background: #efeff4;
+}
+
+
+.tab {
+  background:#fafafa;
+  border-bottom: 1px solid #E5E5E5;
+}
+.tab .liner {
+  width: 25%;
+}
+
+
+
+
+.tags{
+  font-size: 10px;
+  letter-spacing: 0;
+  background-color:#890E2D;
+  color: #fff;
+  margin-left: 10px;
+  padding: 2px 4px;
+  line-height:normal;
+}
+.tags.blue{
+  background-color:#00BFFF;
+  position:absolute;
+  right:11px;
+  top:11px;
+  line-height: normal;
+}
+.tags.yellow{
+  background-color:#FFBF00;
+}
+.tags.green{
+  background-color:#1AAD19;
+}
+
+
+
+
+
+
+
+.order{
+  margin-top:10px;
+  background: #fff;
+}
+.order .hd{
+  padding: 12px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.order .bd{
+  padding: 8px;
+  width:100%;
+  white-space:nowrap;
+}
+.order .bd.space{
+  white-space:normal; 
+}
+.order .bd .item{
+  display:flex;
+}
+.order .bd .multiple{
+  width:65px;
+  margin-left: 8px;
+  display:inline-block;
+}
+.order .bd .multiple .item-title{
+  display: none;
+}
+.order .bd .item .item-img{
+  width:65px;
+  height:65px;
+  position:relative;
+  margin-right:10px;
+}
+.order .bd .item .item-title{
+  font-size:14px;
+  color:#000;
+  width: calc(100% - 105px);
+  word-break:break-all;
+  line-height:20px;
+}
+
+
+.order .ft{
+  padding: 8px;
+  border-top: 1px solid #f1f1f1;
+  line-height:25px;
+}
+.order .left{
+  display: inline-flex;
+}
+.order .right{
+  float: right;
+
+}
+.order .right button{
+  height:25px;
+  border-radius:25px;
+  line-height:25px;
+  margin-left: 10px;
+}
+
+.order .right button[type="primary"]::after {
+  border: 0px;
+  border-radius:25px;
+}
+.order .right button[type="default"]::after {
+  border-radius:25px;
+}
+.order .right button[type="default"]{
+  background:#fff;
+  color: #353535;
+}
+
+
+
+
+.order .real{
+  background-color:#ff3300;
+  color:#fff;
+}

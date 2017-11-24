@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.xlibao.order.data.mapper.order.OrderStateLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.order.OrderStateLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="shipping_passport_id" property="shippingPassportId" jdbcType="BIGINT"/>
+        <result column="order_type" property="orderType" jdbcType="INTEGER"/>
+        <result column="before_status" property="beforeStatus" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="operator_time" property="operatorTime" jdbcType="TIMESTAMP"/>
+        <result column="operator_passport_id" property="operatorPassportId" jdbcType="VARCHAR"/>
+        <result column="operator_name" property="operatorName" jdbcType="VARCHAR"/>
+        <result column="operator_describe" property="operatorDescribe" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="createOrderStateLogger">
+        insert into order_state_logger(order_id, shipping_passport_id, order_type, before_status, status, operator_passport_id, operator_name, operator_describe)
+        values(#{orderId}, #{shippingPassportId}, #{orderType}, #{beforeStatus}, #{status}, #{operatorPassportId}, #{operatorName}, #{operatorDescribe})
+    </insert>
+
+    <select id="getOrderStateLoggers" resultMap="BaseResultMap">
+        select * from order_state_logger where order_id = #{orderId}
+    </select>
+
+    <select id="getOrderStateLogger" resultMap="BaseResultMap">
+        select * from order_state_logger where order_id = #{orderId} and status = #{status}
+    </select>
+
+    <select id="getRowSortStatistics" resultType="int">
+        select count(*) from order_state_logger where shipping_passport_id = #{shippingPassportId} and order_type = #{orderType} and status = #{status} and operator_time like concat(#{matchTime}, '%') and id &lt; #{id}
+    </select>
+</mapper>

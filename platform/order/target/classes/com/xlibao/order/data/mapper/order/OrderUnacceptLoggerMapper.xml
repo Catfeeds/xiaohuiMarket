@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.order.data.mapper.order.OrderUnacceptLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.order.OrderUnacceptLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="target_passport_id" property="targetPassportId" jdbcType="BIGINT"/>
+        <result column="pushed_count" property="pushedCount" jdbcType="INTEGER"/>
+        <result column="pushed_time" property="pushedTime" jdbcType="TIMESTAMP"/>
+        <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createUnacceptLogger">
+        insert into order_unaccept_logger(order_id, target_passport_id, pushed_count, pushed_time, last_modify_time) values(#{orderId}, #{targetPassportId}, #{pushedCount}, #{pushedTime}, #{lastModifyTime})
+    </insert>
+
+    <select id="getUnacceptLogger" resultMap="BaseResultMap">
+        select * from order_unaccept_logger where order_id = #{orderId} and target_passport_id = #{passportId}
+    </select>
+
+    <select id="getNewestUnacceptLogger" resultMap="BaseResultMap">
+        select * from order_unaccept_logger where target_passport_id = #{passportId} order by id desc limit 1
+    </select>
+
+    <select id="getUnacceptLoggers" resultMap="BaseResultMap">
+        select * from order_unaccept_logger where target_passport_id = #{passportId} limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="unAcceptOrderSize" resultType="int">
+        select count(*) from order_unaccept_logger where target_passport_id = #{passportId}
+    </select>
+
+    <update id="repushOrders">
+        update order_unaccept_logger set pushed_count = pushed_count + 1, last_modify_time = now() where order_id = #{orderId}
+    </update>
+
+    <delete id="removeUnacceptLoggers">
+        delete from order_unaccept_logger where order_id = #{orderId}
+    </delete>
+</mapper>

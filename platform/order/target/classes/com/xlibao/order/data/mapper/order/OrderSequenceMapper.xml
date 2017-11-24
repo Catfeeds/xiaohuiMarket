@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.order.data.mapper.order.OrderSequenceMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.order.OrderSequence">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="partner_id" property="partnerId" jdbcType="BIGINT"/>
+        <result column="partner_user_id" property="partnerUserId" jdbcType="BIGINT"/>
+        <result column="sequence_number" property="sequenceNumber" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="validity_term_second" property="validityTermSecond" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="createOrderSequence" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.order.OrderSequence">
+        insert into order_sequence(partner_id, partner_user_id, sequence_number, type, status, validity_term_second) values(#{partnerId}, #{partnerUserId}, #{sequenceNumber}, #{type}, #{status}, #{validityTermSecond})
+    </insert>
+
+    <select id="lastOrderSequence" resultMap="BaseResultMap">
+        select * from order_sequence where partner_id = #{partnerId} and partner_user_id = #{partnerUserId} and type = #{orderType} order by id desc limit 1
+    </select>
+
+    <select id="findOrderSequence" resultMap="BaseResultMap">
+        select * from order_sequence where sequence_number = #{sequenceNumber}
+    </select>
+
+    <update id="updateOrderSequence">
+        update order_sequence set status = #{status} where sequence_number = #{sequenceNumber}
+    </update>
+</mapper>

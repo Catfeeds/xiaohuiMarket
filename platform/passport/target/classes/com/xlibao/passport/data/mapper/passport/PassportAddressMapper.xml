@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.passport.data.mapper.passport.PassportAddressMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.passport.PassportAddress">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="address_alias" property="addressAlias" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="street" property="street" jdbcType="VARCHAR"/>
+        <result column="street_num" property="streetNum" jdbcType="VARCHAR"/>
+        <result column="detail_address" property="detailAddress" jdbcType="VARCHAR"/>
+        <result column="adcode" property="adcode" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createAddress" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.passport.PassportAddress">
+        insert into passport_address(passport_id, address_alias, name, phone_number, country, province, city, district, street, street_num, detail_address, adcode, longitude, latitude, type, status, create_time)
+        values(#{passportId}, #{addressAlias}, #{name}, #{phoneNumber}, #{country}, #{province}, #{city}, #{district}, #{street}, #{streetNum}, #{detailAddress}, #{adcode}, #{longitude}, #{latitude}, #{type}, #{status}, #{createTime})
+    </insert>
+
+    <select id="getAddress" resultMap="BaseResultMap">
+        select * from passport_address where id = #{addressId} and passport_id = #{passportId} and status in(${statusSet})
+    </select>
+
+    <select id="getAddresses" resultMap="BaseResultMap">
+        select * from passport_address where passport_id = #{passportId} and status in(${statusSet}) order by status desc, id desc
+    </select>
+
+    <select id="getAddressByStatus" resultMap="BaseResultMap">
+        select * from passport_address where passport_id = #{passportId} and status = #{status}
+    </select>
+
+    <update id="resetAddressStatus">
+        update passport_address set status = #{afterStatus} where passport_id = #{passportId} and status = #{beforeStatus}
+    </update>
+
+    <update id="modifyAddress" parameterType="com.xlibao.metadata.passport.PassportAddress">
+        update passport_address set address_alias = #{addressAlias}, name = #{name}, phone_number = #{phoneNumber}, country = #{country}, province = #{province}, city = #{city}, district = #{district},
+        street = #{street}, street_num = #{streetNum}, detail_address = #{detailAddress}, adcode = #{adcode}, longitude = #{longitude}, latitude = #{latitude}, type = #{type}, status = #{status} where id = #{id}
+    </update>
+
+    <update id="setDefaultAddress">
+        update passport_address set status = #{status} where id = #{addressId}
+    </update>
+
+    <update id="removeAddress">
+        update passport_address set status = #{status} where id = #{addressId} and passport_id = #{passportId}
+    </update>
+</mapper>

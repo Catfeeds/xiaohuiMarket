@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.item.MarketItemMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketItem">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="item_template_id" property="itemTemplateId" jdbcType="BIGINT"/>
+        <result column="define_name" property="defineName" jdbcType="VARCHAR"/>
+        <result column="define_image" property="defineImage" jdbcType="VARCHAR"/>
+        <result column="default_sort" property="defaultSort" jdbcType="INTEGER"/>
+        <result column="owner_id" property="ownerId" jdbcType="BIGINT"/>
+        <result column="product_batches" property="productBatches" jdbcType="INTEGER"/>
+        <result column="batches_code" property="batchesCode" jdbcType="VARCHAR"/>
+        <result column="stock" property="stock" jdbcType="INTEGER"/>
+        <result column="lock_stock" property="lockStock" jdbcType="INTEGER"/>
+        <result column="pending_quantity" property="pendingQuantity" jdbcType="INTEGER"/>
+        <result column="warning_quantity" property="warningQuantity" jdbcType="INTEGER"/>
+        <result column="keep_quantity" property="keepQuantity" jdbcType="INTEGER"/>
+        <result column="oversold_quantity" property="oversoldQuantity" jdbcType="INTEGER"/>
+        <result column="maximum_sell_count" property="maximumSellCount" jdbcType="INTEGER"/>
+        <result column="minimum_sell_count" property="minimumSellCount" jdbcType="INTEGER"/>
+        <result column="allocation_quantity" property="allocationQuantity" jdbcType="INTEGER"/>
+        <result column="purchase_quantity" property="purchaseQuantity" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="request_source" property="requestSource" jdbcType="INTEGER"/>
+        <result column="cost_price" property="costPrice" jdbcType="BIGINT"/>
+        <result column="sell_price" property="sellPrice" jdbcType="BIGINT"/>
+        <result column="market_price" property="marketPrice" jdbcType="BIGINT"/>
+        <result column="discount_price" property="discountPrice" jdbcType="BIGINT"/>
+        <result column="discount_type" property="discountType" jdbcType="TINYINT"/>
+        <result column="restriction_quantity" property="restrictionQuantity" jdbcType="INTEGER"/>
+        <result column="beyond_control" property="beyondControl" jdbcType="TINYINT"/>
+        <result column="delivery_delay" property="deliveryDelay" jdbcType="TINYINT"/>
+        <result column="initial_sales" property="initialSales" jdbcType="INTEGER"/>
+        <result column="actual_sales" property="actualSales" jdbcType="INTEGER"/>
+        <result column="total_storage" property="totalStorage" jdbcType="BIGINT"/>
+        <result column="total_out_storage" property="totalOutStorage" jdbcType="BIGINT"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createItem" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.market.data.model.MarketItem">
+        insert into market_item(item_template_id, define_name, define_image, default_sort, owner_id, product_batches, batches_code, stock, lock_stock, pending_quantity, warning_quantity, keep_quantity, oversold_quantity,
+        maximum_sell_count, minimum_sell_count, allocation_quantity, purchase_quantity, status, request_source, cost_price, sell_price, market_price, discount_price, discount_type, restriction_quantity, beyond_control, delivery_delay,
+        initial_sales, actual_sales, total_storage, total_out_storage, description, create_time)
+        values(#{itemTemplateId}, #{defineName}, #{defineImage}, #{defaultSort}, #{ownerId}, #{productBatches}, #{batchesCode}, #{stock}, #{lockStock}, #{pendingQuantity}, #{warningQuantity}, #{keepQuantity}, #{oversoldQuantity},
+        #{maximumSellCount}, #{minimumSellCount}, #{allocationQuantity}, #{purchaseQuantity}, #{status}, #{requestSource}, #{costPrice}, #{sellPrice}, #{marketPrice}, #{discountPrice}, #{discountType}, #{restrictionQuantity}, #{beyondControl}, #{deliveryDelay},
+        #{initialSales}, #{actualSales}, #{totalStorage}, #{totalOutStorage}, #{description}, #{createTime})
+    </insert>
+
+    <select id="getItem" resultMap="BaseResultMap">
+        select * from market_item where owner_id = #{marketId} and item_template_id = #{itemTemplateId}
+    </select>
+
+    <select id="getMarketItem" resultMap="BaseResultMap">
+        select * from market_item where id = #{id}
+    </select>
+
+    <select id="specialProducts" resultMap="BaseResultMap">
+        select * from market_item where owner_id = #{marketId} and status = 1 and restriction_quantity != 0 and (request_source &amp; #{requestSource}) = #{requestSource}
+        <if test="appointType == -100">and #{timeout} > timestampdiff(second, create_time, now())</if>
+        <if test="appointType == -99">and discount_type = 1</if>
+        <if test="appointType == -98">and discount_type = 2</if>
+        order by
+        <if test="sortType == 0">default_sort</if>
+        <if test="sortType == 1">sell_price</if>
+        <if test="sortType == 2">actual_sales</if>
+
+        <if test="sortValue == 1">desc</if>, id
+        limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="conditionOrdering" resultMap="BaseResultMap">
+        select * from market_item where owner_id = #{marketId} and status = 1 and item_template_id in(${itemTemplateSet}) and restriction_quantity != 0 and (request_source &amp; #{requestSource}) = #{requestSource} order by
+        <if test="sortType == 0"> default_sort </if>
+        <if test="sortType == 1"> sell_price </if>
+        <if test="sortType == 2"> actual_sales </if>
+
+        <if test="sortValue == 1">desc</if>, id
+        limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getItemsForItemTemplateSet" resultMap="BaseResultMap">
+        select * from market_item where owner_id = #{marketId} and status = 1 and (stock + oversold_quantity - lock_stock - pending_quantity) > 0 and restriction_quantity != 0
+        <if test="itemTemplateSet != null">and item_template_id in(${itemTemplateSet})</if>
+        order by create_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getItemForItemTemplates" resultMap="BaseResultMap">
+        select * from market_item where owner_id = #{marketId} and status = 1 and (stock + oversold_quantity - lock_stock - pending_quantity) > 0 and restriction_quantity != 0 and item_template_id in(${itemTemplateSet})
+    </select>
+
+    <select id="getItems" resultMap="BaseResultMap">
+        select * from market_item where id in (${itemSet})
+    </select>
+
+    <select id="searchMarketItems" resultMap="BaseResultMap">
+        select * from market_item where 1=1
+        <if test="marketId != 0">
+            and owner_id = #{marketId}
+        </if>
+        <if test="searchType == 'itemTemplateId'" >
+            and item_template_id = #{searchKey}
+        </if>
+        <if test="searchType == 'itemTemplateName'">
+            and define_name like "%"#{searchKey}"%"
+        </if>
+        order by create_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+
+    <select id="searchMarketItemCount" resultType="Integer">
+        select count(id) from market_item where 1 = 1
+        <if test="marketId != 0">
+            and owner_id = #{marketId}
+        </if>
+        <if test="searchType == 'itemTemplateId'" >
+            and item_template_id = #{searchKey}
+        </if>
+        <if test="searchType == 'itemTemplateName'">
+            and define_name like "%"#{searchKey}"%"
+        </if>
+    </select>
+
+    <select id="existItemTemplates" resultType="Long">
+        select item_template_id from market_item where owner_id = #{marketId} and status = 1 and (stock + oversold_quantity - lock_stock - pending_quantity) > 0 and restriction_quantity != 0
+        and item_template_id in(${itemTemplateSet}) and (request_source &amp; #{requestSource}) = #{requestSource}
+    </select>
+
+    <update id="lockItemStock">
+        update market_item set lock_stock = lock_stock + #{lockQuantity} where id = #{itemId} and (stock + oversold_quantity - lock_stock - pending_quantity - #{lockQuantity}) >= 0
+    </update>
+
+    <update id="itemPending">
+        update market_item set lock_stock = lock_stock - #{quantity}, pending_quantity = pending_quantity + #{quantity} where id = #{itemId}
+    </update>
+
+    <update id="incrementPending">
+        update market_item set pending_quantity = pending_quantity + #{quantity} where id = #{itemId}
+    </update>
+
+    <update id="decrementItemStock">
+        update market_item set stock = stock - #{quantity}, lock_stock = lock_stock - #{quantity}, total_out_storage = total_out_storage + #{quantity} where id = #{itemId}
+    </update>
+
+    <update id="offShelves">
+        update market_item set stock = stock - #{quantity}, status = #{status}
+        <if test="quantity > 0">, total_storage = total_storage + #{quantity}</if>
+        <if test="quantity &lt; 0">, total_out_storage = total_out_storage + #{quantity}</if>
+        where id = #{itemId}
+    </update>
+
+    <update id="updateItem">
+        update market_item set cost_price = #{costPrice}, sell_price = #{sellPrice}, market_price = #{marketPrice}, discount_price = #{discountPrice}, status = #{status}, description = #{description} where id = #{itemId}
+    </update>
+
+    <update id="marketItemUpdateStatus">
+        update market_item set status = #{status} where id = #{itemId}
+    </update>
+
+    <update id="releaseItemLockQuantity">
+        update market_item set lock_stock = lock_stock - #{releaseLockQuantity} where id = #{itemId}
+    </update>
+</mapper>

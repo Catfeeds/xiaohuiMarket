@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.activity.MarketRecommendItemMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketRecommendItem">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="entry_id" property="entryId" jdbcType="BIGINT"/>
+        <result column="entry_type" property="entryType" jdbcType="INTEGER"/>
+        <result column="adcode" property="adcode" jdbcType="VARCHAR"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="open_time" property="openTime" jdbcType="TIMESTAMP"/>
+        <result column="close_time" property="closeTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getRecommendItemsByMarket" resultMap="BaseResultMap">
+        select * from market_recommend_item where market_id = #{marketId} and entry_type = #{type} and status = 1 and (now() between open_time and close_time) order by sort
+    </select>
+
+    <select id="getAdcodeDefaultRecommendItems" resultMap="BaseResultMap">
+        select * from market_recommend_item where adcode = #{adcode} and market_id = 0 and entry_type = #{type} and status = 1 and (now() between open_time and close_time) order by sort
+    </select>
+
+    <select id="getDefaultRecommendItems" resultMap="BaseResultMap">
+        select * from market_recommend_item where adcode is null and market_id = 0 and entry_type = #{type} and status = 1 and (now() between open_time and close_time) order by sort
+    </select>
+</mapper>

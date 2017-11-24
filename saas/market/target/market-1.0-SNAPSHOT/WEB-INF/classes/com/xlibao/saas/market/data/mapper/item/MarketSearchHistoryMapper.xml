@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.item.MarketSearchHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.saas.market.data.model.MarketSearchHistory">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="k" property="k" jdbcType="VARCHAR"/>
+        <result column="total_search_times" property="totalSearchTimes" jdbcType="INTEGER"/>
+        <result column="last_search_time" property="lastSearchTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createHistorySearch">
+        insert into market_search_history(market_id, k, total_search_times, last_search_time) values(#{marketId}, #{k}, #{totalSearchTimes}, #{lastSearchTime})
+    </insert>
+
+    <select id="loaderHotSearch" resultType="String">
+        select k from market_search_history where market_id = #{marketId} order by total_search_times desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <update id="incrementSearchTimes">
+        update market_search_history set total_search_times = total_search_times + 1, last_search_time = #{lastSearchTime} where market_id = #{marketId} and k = #{searchKey}
+    </update>
+</mapper>

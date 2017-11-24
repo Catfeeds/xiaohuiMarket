@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.order.MarketOrderStatusLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.saas.market.data.model.MarketOrderStatusLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_sequence_number" property="orderSequenceNumber" jdbcType="VARCHAR"/>
+        <result column="mark" property="mark" jdbcType="VARCHAR"/>
+        <result column="notify_type" property="notifyType" jdbcType="INTEGER"/>
+        <result column="local_status" property="localStatus" jdbcType="INTEGER"/>
+        <result column="remote_status" property="remoteStatus" jdbcType="INTEGER"/>
+        <result column="local_complete_time" property="localCompleteTime" jdbcType="TIMESTAMP"/>
+        <result column="remote_complete_time" property="remoteCompleteTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createOrderStatusLogger">
+        insert into market_order_status_logger(order_sequence_number, mark, notify_type, local_status, remote_status, local_complete_time, remote_complete_time)
+        values(#{orderSequenceNumber}, #{mark}, #{notifyType}, #{localStatus}, #{remoteStatus}, #{localCompleteTime}, #{remoteCompleteTime})
+    </insert>
+
+    <select id="getOrderStatusLogger" resultMap="BaseResultMap">
+        select * from market_order_status_logger where order_sequence_number = #{orderSequenceNumber} and notify_type = #{notifyType} and local_status = #{localStatus}
+    </select>
+
+    <update id="modifyOrderRemoteStatusLogger">
+        update market_order_status_logger set remote_status = #{remoteStatus}, remote_complete_time = #{remoteCompleteTime} where order_sequence_number = #{orderSequenceNumber} and notify_type = #{notifyType} and local_status = #{localStatus}
+    </update>
+</mapper>

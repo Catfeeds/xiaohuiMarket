@@ -1,0 +1,21 @@
+/** orderInfo.wxss **/
+page{
+	background: #efeff4;	
+}
+.index{
+  background: #efeff4;
+  padding-top: 10px;
+}
+
+.navigator-arrow::after{
+	right: 0px;
+}
+
+.textarea{
+	padding: 15px;
+	background: #FAFAFA;
+	border: 1px solid #E5E5E5;
+	border-radius: 4px;
+	height: 80px;
+	width:calc(100% - 50px);
+}

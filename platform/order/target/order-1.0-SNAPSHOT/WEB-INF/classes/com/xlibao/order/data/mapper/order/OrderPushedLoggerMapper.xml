@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.order.data.mapper.order.OrderPushedLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.order.OrderPushedLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="target_passport_id" property="targetPassportId" jdbcType="BIGINT"/>
+        <result column="push_type" property="pushType" jdbcType="INTEGER"/>
+        <result column="push_title" property="pushTitle" jdbcType="VARCHAR"/>
+        <result column="push_msg_content" property="pushMsgContent" jdbcType="VARCHAR"/>
+        <result column="push_result" property="pushResult" jdbcType="VARCHAR"/>
+        <result column="push_time" property="pushTime" jdbcType="TIMESTAMP"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="feedback_msg_content" property="feedbackMsgContent" jdbcType="VARCHAR"/>
+        <result column="feedback_status" property="feedbackStatus" jdbcType="INTEGER"/>
+        <result column="feedback_time" property="feedbackTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createPushedLogger">
+        insert into order_pushed_logger(order_id, target_passport_id, push_type, push_title, push_msg_content, push_result, push_time, status, feedback_msg_content, feedback_status, feedback_time)
+        values(#{orderId}, #{targetPassportId}, #{pushType}, #{pushTitle}, #{pushMsgContent}, #{pushResult}, #{pushTime}, #{status}, #{feedbackMsgContent}, #{feedbackStatus}, #{feedbackTime})
+    </insert>
+</mapper>

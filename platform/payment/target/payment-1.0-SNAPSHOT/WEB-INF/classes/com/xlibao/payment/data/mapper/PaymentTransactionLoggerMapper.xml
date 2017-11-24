@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentTransactionLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentTransactionLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="trans_sequence_number" property="transSequenceNumber" jdbcType="VARCHAR"/>
+        <result column="trans_status" property="transStatus" jdbcType="INTEGER"/>
+        <result column="payment_type" property="paymentType" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="INTEGER"/>
+        <result column="partner_id" property="partnerId" jdbcType="VARCHAR"/>
+        <result column="app_id" property="appId" jdbcType="VARCHAR"/>
+        <result column="partner_user_id" property="partnerUserId" jdbcType="VARCHAR"/>
+        <result column="partner_trade_number" property="partnerTradeNumber" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="INTEGER"/>
+        <result column="channel_trade_number" property="channelTradeNumber" jdbcType="VARCHAR"/>
+        <result column="channel_user_id" property="channelUserId" jdbcType="VARCHAR"/>
+        <result column="channel_user_name" property="channelUserName" jdbcType="VARCHAR"/>
+        <result column="channel_remark" property="channelRemark" jdbcType="VARCHAR"/>
+        <result column="account_number" property="accountNumber" jdbcType="VARCHAR"/>
+        <result column="account_name" property="accountName" jdbcType="VARCHAR"/>
+        <result column="account_type" property="accountType" jdbcType="INTEGER"/>
+        <result column="currency_type" property="currencyType" jdbcType="VARCHAR"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bank_branch_code" property="bankBranchCode" jdbcType="VARCHAR"/>
+        <result column="bank_simple_name" property="bankSimpleName" jdbcType="VARCHAR"/>
+        <result column="trans_unit_amount" property="transUnitAmount" jdbcType="BIGINT"/>
+        <result column="trans_number" property="transNumber" jdbcType="INTEGER"/>
+        <result column="trans_total_amount" property="transTotalAmount" jdbcType="BIGINT"/>
+        <result column="trans_title" property="transTitle" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="trans_create_time" property="transCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP"/>
+        <result column="use_coupon" property="useCoupon" jdbcType="TINYINT"/>
+        <result column="discount_amount" property="discountAmount" jdbcType="BIGINT"/>
+        <result column="refund_status" property="refundStatus" jdbcType="TINYINT"/>
+        <result column="refund_time" property="refundTime" jdbcType="TIMESTAMP"/>
+        <result column="channel_refund_parameters" property="channelRefundParameters" jdbcType="VARCHAR"/>
+        <result column="notify_front_url" property="notifyFrontUrl" jdbcType="VARCHAR"/>
+        <result column="notify_url" property="notifyUrl" jdbcType="VARCHAR"/>
+        <result column="extend_parameter" property="extendParameter" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert  id="createPaymentTransactionLogger" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.payment.data.model.PaymentTransactionLogger">
+        insert into payment_transaction_logger(passport_id, trans_sequence_number, payment_type, trans_type, partner_id, app_id, partner_user_id, partner_trade_number, channel_id, trans_unit_amount,
+            trans_number, trans_total_amount, trans_title, remark, use_coupon, discount_amount, notify_front_url, notify_url, extend_parameter,
+            account_number, account_name, account_type, currency_type, bank_name, bank_branch_code, bank_simple_name)
+        values(#{passportId}, #{transSequenceNumber}, #{paymentType}, #{transType}, #{partnerId}, #{appId}, #{partnerUserId}, #{partnerTradeNumber}, #{channelId}, #{transUnitAmount},
+            #{transNumber}, #{transTotalAmount}, #{transTitle}, #{remark}, #{useCoupon}, #{discountAmount}, #{notifyFrontUrl}, #{notifyUrl}, #{extendParameter},
+            #{accountNumber}, #{accountName}, #{accountType}, #{currencyType}, #{bankName}, #{bankBranchCode}, #{bankSimpleName})
+    </insert>
+
+    <select id="getTransactionLoggerSize" resultType="int">
+        select count(*) from payment_transaction_logger where passport_id = #{passportId} and trans_type = #{transType} and create_time like concat(#{dateTime}, '%')
+    </select>
+
+    <select id="getTransactionLogger" resultMap="BaseResultMap">
+        select * from payment_transaction_logger where trans_sequence_number = #{transSequenceNumber}
+    </select>
+
+    <select id="getTransactionLoggerForPartnerTradeNumber" resultMap="BaseResultMap">
+        select * from payment_transaction_logger where partner_trade_number = #{partnerTradeNumber}
+    </select>
+
+    <select id="getTransactionLoggers" resultMap="BaseResultMap">
+        select * from payment_transaction_logger where passport_id = #{passportId} and trans_type = #{transType} order by trans_status asc, id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getRechargeTransactionLoggers" resultMap="BaseResultMap">
+        select * from payment_transaction_logger where passport_id = #{passportId} and trans_type = #{transType} and trans_status &amp; #{transStatus} = #{transStatus}
+        <if test="currencyType != 0">and currency_type = #{currencyType} </if>
+        order by id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getTransactionLoggerById" resultMap="BaseResultMap">
+        select * from payment_transaction_logger where id = #{tid}
+    </select>
+
+    <update id="modifyTransactionStatus">
+        update payment_transaction_logger set passport_id = #{passportId}, trans_status = trans_status | #{transStatus}, channel_user_id = #{channelUserId}, channel_user_name = #{channelUserName}, channel_trade_number = #{channelTradeNumber},
+        trans_create_time = #{transCreateTime}, payment_time = #{paymentTime}, channel_remark = #{channelRemark}, trans_total_amount = #{transTotalAmount} where id = #{id} and (trans_status &amp; #{transStatus} != #{transStatus})
+    </update>
+
+    <update id="updateRefundParameter">
+        update payment_transaction_logger set refund_status = #{refundStatus}, refund_time = #{refundTime}, channel_refund_parameters = #{channelRefundParameters} where id = #{id} and refund_status = 0
+    </update>
+</mapper>

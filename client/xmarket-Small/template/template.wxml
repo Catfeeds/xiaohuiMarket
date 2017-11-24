@@ -1,0 +1,62 @@
+<template name="icon">
+	<image class="icon" src="{{url}}" style="width: {{w}};height:{{h}};"></image>
+</template>
+
+
+<!-- 模板 导航栏 -->
+<template name="temp_offcanvas_navbar">
+	<navigator redirect hover-class="other-navigator-hover" url="../index/index">
+		<view class="item"><icon class="iconfont icon-shouye-xianxing cus-fs-18" ></icon>首页</view>
+	</navigator>
+	<navigator url="../cart/cart">
+		<view class="item" bindtap="onStatus" data-status-key="canvasShow">
+		<icon class="iconfont icon-caigou-xianxing cus-fs-18" ></icon>购物车
+		</view>
+	</navigator>
+	<navigator url="../order/order" bindtap="onStatus" >
+		<view class="item" bindtap="onStatus" data-status-key="canvasShow">
+		<icon class="iconfont icon-danju-xianxing cus-fs-18" ></icon>我的订单
+		</view>
+	</navigator>
+	<view class="subItem">
+		<navigator url="../cart/cart?type=0" bindtap="onCanvas" ><view class="bbs">全部订单</view></navigator>
+		<navigator url="../cart/cart?type=1" bindtap="onCanvas" ><view class="bbs">待付款</view></navigator>
+		<navigator url="../cart/cart?type=2" bindtap="onCanvas" ><view>待收货</view></navigator>
+		<navigator url="../cart/cart?type=3" bindtap="onCanvas" ><view>退款</view></navigator>
+	</view>
+	<navigator url="../my/my" bindtap="onCanvas" >
+		<view class="item" bindtap="onStatus" data-status-key="canvasShow">
+		<icon class="iconfont icon-yonghu-xianxing cus-fs-18" ></icon>个人信息
+		</view>
+	</navigator>
+	<view class="subItem">
+		<view class="bbs">设置头像</view>
+		<view class="bbs">设置昵称</view>
+		<view>修改密码</view>
+	</view>
+	<navigator url="../order/order" bindtap="onCanvas" >
+		<view class="item" bindtap="onStatus" data-status-key="canvasShow">
+		<icon class="iconfont icon-weizhi-xianxing cus-fs-18" ></icon>收货地址
+		</view>
+	</navigator>
+	<view class="subItem">
+		<view>添加地址</view>
+	</view>
+	<navigator url="../order/order" bindtap="onCanvas" >
+		<view class="item" bindtap="onStatus" data-status-key="canvasShow">
+		<icon class="iconfont icon-wenti-xianxing cus-fs-18" ></icon>常见问题
+		</view>
+	</navigator> 
+</template>
+ 
+ <!-- 模板 选择店铺 -->
+<template name="temp_offcanvas_market">
+	<view class="item" bindtap="onMarket" data-id="{{id}}">
+			<text class="title" data-id="{{id}}">{{name}}</text>
+			<text class="tags yellow">距离最近</text>
+			<text class="tags blue" data-id="{{id}}">{{formatDistance}}</text>
+			<view style="font-size: 13px;color:#717171;" data-id="{{id}}">
+				地址：{{formatAddress}}
+			</view>
+	</view>
+</template>

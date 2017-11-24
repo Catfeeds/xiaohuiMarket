@@ -1,0 +1,161 @@
+<import src="../../template/template.wxml"/>
+<import src="../../template/temp-goods.wxml"/>
+
+<view class="index cus-height-100">
+	<view class="navbar {{temps.temp_canvas == 'temp_offcanvas_navbar' ? 'zIndex' : ''}}">
+		<view class="item" style="z-index: 50;">
+			<image class="icon" src="{{icons.navigate.url}}" style="width: {{icons.navigate.w}};height:{{icons.navigate.h}};"
+				data-status-key="canvasShow"
+				data-temp-key="temp_canvas"
+				data-temp-val="temp_offcanvas_navbar"
+				bindtap="onStatus">
+			</image>
+		</view>
+		<view class="item"
+			data-status-key="canvasShow"
+			data-temp-key="temp_canvas"
+			data-temp-val="temp_offcanvas_market"
+			bindtap="onStatus">
+			<template is="icon" data="{{...icons.W_location}}"></template>
+			{{currMarket.name || '未关联任何店铺'}}
+		</view>
+		<navigator class="item" hover-class="navigator-hover" url="search">  
+			<template is="icon" data="{{...icons.search}}"></template>
+		</navigator>
+	</view>
+
+	<view style="width:100%;height:100%;display:inline-flex;">
+		<!-- 分类显示区域 -->
+		<scroll-view class="subnav" scroll-y="true" style="width: 85px;">
+			<view style="height: 40px;"></view>
+			<view class="item {{status.typeShow == '0' ? 'active':''}}" 
+				data-status-key="typeShow" 
+				data-status-val="0"
+				data-temp-key="temp_main"
+				data-temp-val="temp_hot"
+				bindtap="onStatus">热卖
+			</view>
+			<block wx:for="{{typeList}}" wx:key="{{item.id}}" wx:for-index="idx">
+				<view class="item {{status.typeShow == item.id ? 'active':''}}" 
+					data-status-key="typeShow"
+					data-status-val="{{item.id}}"
+					data-temp-key="temp_main"
+					data-temp-val="temp_goods"
+					bindtap="onStatus">{{item.name}}
+				</view>
+			 	<view class="subitem {{status.typeShow == item.id ? 'active':''}}">
+			 		<block wx:for="{{item.subItemTypes}}" wx:for-item="subItem" wx:key="{{subItem.id}}">
+			 			<view class="{{status.typeSubShow == subItem.id ? 'active':''}}" 
+							data-status-key="typeSubShow"
+							data-status-val="{{subItem.id}}"
+							data-temp-key="temp_main"
+							data-temp-val="temp_goods"
+				 			bindtap="onStatus">{{subItem.name}}
+			 			</view>
+		 			</block>
+			 	</view>
+		 	</block>
+			<view style="height: 50px;"></view>
+		</scroll-view>
+
+		<!-- 商品显示区域 -->
+		<scroll-view class="list" scroll-y="true" style="width: calc(100% - 85px);height: 100%">
+			<view style="height: 40px;"></view>
+			<block wx:if="{{temps.temp_main == 'temp_hot'}}">
+				<template is="temp_hot" data="{{...item}}" wx:for="{{orderData}}" wx:key="{{item.marketId}}"/>	
+			</block>
+			<template is="temp_goods" data="{{...item}}" wx:for="{{goodData}}" wx:key="{{item.id}}"/>
+
+			<view style="height: 50px;"></view>
+		</scroll-view>
+	</view>
+
+	<!-- 购物车 -->
+	<view class="cartnav">
+		<view class="item left {{status.cartShow ? 'hide':'show'}}">
+			<view class="iconCart">
+				<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/CarIcon@3x.png" data-status-key="cartShow" bindtap="onStatus"></image>
+				<view class="tagNnm">{{cartTotal.totalNum}}</view>
+			</view>
+		</view>
+		<view class="item center {{status.cartShow ? 'text-padding-left':'123123123'}}">
+			<view class="text-small-1x">合计：￥<text class="text-large-2x">{{cartTotal.totalMoney / 100}}</text></view>
+			<view class="text-small-1x">节省：￥0.00</view>
+		</view>
+		<navigator class="item right" style="font-size: 17px;" hover-class="navigator-hover" url="../pay/pay">去结算</navigator>
+	</view>
+
+	<!-- 二级购物车 -->
+	<view class="cart-subnav-scenes {{status.cartShow ? 'show':'hide'}}" data-status-key="cartShow" catchtap="onStatus"></view>
+	<view class="cart-subnav {{status.cartShow ? 'show':'hide'}}">
+		<view class="iconCart">
+			<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/CarIcon@3x.png" data-status-key="cartShow" catchtap="onStatus"></image>
+			<view class="tagNnm">{{cartTotal.totalNum}}</view>
+		</view>
+		<text class="iconCart-up"></text>
+		<view class="hd">
+			<label class="checkbox text-muted" style="padding-left:10px">
+				<checkbox style="transform:scale(.6);" data-check="{{status.checkAll}}" checked="{{status.checkAll ? 'checked':''}}" catchtap="onCartCheckAll"></checkbox>
+				全选
+			</label>
+			<text class="text-small">（已选 {{checkTotal.speciesNum || 0}} 件）</text>
+			<view class="text-muted" style="width:80px;" data-type="REMOVER" catchtap="onCart">
+				清空购物车
+			</view>
+		</view>
+		<scroll-view class="bd list" scroll-y="true">
+			<template is="temp_goods_cart" data="{{...item}}" wx:for="{{cartData}}" wx:key="{{item.id}}"/>
+		</scroll-view>
+	</view>
+
+
+	<view class="offcanvas-scenes {{status.canvasShow ? 'show':'hide'}}" data-status-key="canvasShow" catchtap="onStatus"></view>
+	<view class="offcanvas-bar {{status.canvasShow ? 'show':'hide'}} {{temps.temp_canvas}}">  
+		
+		<block wx:if="{{temps.temp_canvas == 'temp_offcanvas_market'}}">
+			<view class="hd">关联店铺</view>	
+			<view class="item">
+					<text class="title">您当前的位置：</text>
+					<view style="font-size: 15px;color:#717171;">
+						<block wx:if="{{location.hasLocation == true}}">
+							<image class="icon" src="{{icons.O_location.url}}" style="width: {{icons.O_location.w}};height:{{icons.O_location.h}};"></image>
+							{{location.formatted_address}}
+						</block>
+						<block wx:else>
+							<image class="icon" src="{{icons.W_location.url}}" style="width: {{icons.W_location.w}};height:{{icons.W_location.h}};"></image>
+							暂时无法获取位置
+						</block>
+					</view>
+					<button type="{{location.hasLocation == true ? 'default' : 'warn'}}" class="width-100" size="mini" style="margin-top:8px;" bindtap="getLocation">重新定位</button>
+			</view>
+			<scroll-view scroll-y="true" style="height: calc(100% - 159px)">
+				<block wx:if="{{currMarket}}">
+					<view class="item active">
+							<text class="title">{{currMarket.name}}</text>
+							<text class="tags">当前关联</text>
+							<text class="tags blue">{{currMarket.formatDistance}}</text>
+							<view class="text-muted" style="font-size: 13px;">
+								地址：{{currMarket.formatAddress}}
+							</view>
+					</view>
+				</block>
+
+				<!-- <block wx:for="{{marketData}}" wx:for-item="item" wx:key="{{item.id}}" wx:for-index="idx">
+					<view class="item {{idx == 0 ? 'active' : ''}}" bindtap="onMarket" data-id="{{id}}">
+							<text class="title" data-id="{{id}}">{{name}}</text>
+							<text class="tags yellow">距离最近</text>
+							<text class="tags blue" data-id="{{id}}">{{formatDistance}}</text>
+							<view style="font-size: 13px;color:#717171;" data-id="{{id}}">
+								地址：{{formatAddress}}
+							</view>
+					</view>
+				</block> -->
+				<template is="temp_offcanvas_market" data="{{...item,currMarket}}" wx:for="{{marketData}}" wx:key="{{item.id}}" bindtap="getLocation"></template>
+			</scroll-view>
+		</block>
+		<block wx:else>
+			<template is="temp_offcanvas_navbar"></template>
+		</block>
+	</view>
+
+</view>

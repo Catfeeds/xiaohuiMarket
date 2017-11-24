@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/bg_f2"
+    android:clipToPadding="false"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/widget_titlebar_base" />
+
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<LinearLayout-->
+            <!--android:background="@color/bg_f2"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:background="@color/white"
+                android:textColor="@color/font_3"
+                android:text="小惠便利仓"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"  />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_d2" />
+
+            <LinearLayout
+                android:background="@color/white"
+                android:id="@+id/item_ll"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_d2" />
+
+            <TextView
+                android:id="@+id/item_count"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/font_3"
+                android:text="共50件"
+                android:gravity="right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"  />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_d2" />
+
+            <TextView
+                android:background="@color/bg_f2"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/font_6"
+                android:gravity="center_horizontal"
+                android:text="如出仓的商品与配送清单不符，请及时联系客服。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"  />
+
+            <TextView
+                android:id="@+id/ok_btn"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/btn_blue"
+                android:padding="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:text="确认配送"
+                android:gravity="center_vertical|center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"  />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:id="@+id/kf_phone"
+                android:padding="15dp"
+                android:layout_gravity="center_horizontal|bottom"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="16sp"
+                    android:textColor="@color/font_6"
+                    android:text="联系客服："
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"  />
+
+                <TextView
+                    android:id="@+id/kf_num"
+                    android:textSize="16sp"
+                    android:textColor="@color/blue"
+                    android:text="400-400-4000"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"  />
+
+            </LinearLayout>
+
+        <!--</LinearLayout>-->
+
+    <!--</ScrollView>-->
+
+</LinearLayout>

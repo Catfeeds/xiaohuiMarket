@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentCurrencyPropertiesMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentCurrencyProperties">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="k" property="k" jdbcType="VARCHAR"/>
+        <result column="v" property="v" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createCurrencyProperties" parameterType="com.xlibao.payment.data.model.PaymentCurrencyProperties">
+        insert into payment_currency_properties(passport_id, type, k, v) values(#{passportId}, #{type}, #{k}, #{v})
+    </insert>
+
+    <select id="getCurrencyProperties" resultMap="BaseResultMap">
+        select * from payment_currency_properties where passport_id = #{passportId} and type = #{type} and k = #{key}
+    </select>
+
+    <update id="modifyCurrencyProperties">
+        update payment_currency_properties set v = #{value} where passport_id = #{passportId} and type = #{type} and k = #{key}
+    </update>
+</mapper>

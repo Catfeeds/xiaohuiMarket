@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.market.MarketEntryMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketEntry">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="image" property="image" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="online_status" property="onlineStatus" jdbcType="INTEGER"/>
+        <result column="admin_name" property="adminName" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="street_id" property="streetId" jdbcType="BIGINT"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="street" property="street" jdbcType="VARCHAR"/>
+        <result column="street_number" property="streetNumber" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="location" property="location" jdbcType="VARCHAR"/>
+        <result column="covering_distance" property="coveringDistance" jdbcType="BIGINT"/>
+        <result column="delivery_mode" property="deliveryMode" jdbcType="INTEGER"/>
+        <result column="delivery_cost" property="deliveryCost" jdbcType="BIGINT"/>
+        <result column="free_delivery_fee" property="freeDeliveryFee" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="loaderMarkets" resultMap="BaseResultMap">
+        select * from market_entry
+    </select>
+
+    <select id="getMarket" resultMap="BaseResultMap">
+        select * from market_entry where id = #{marketId}
+    </select>
+
+    <select id="getMarkets" resultMap="BaseResultMap">
+        select * from market_entry where street_id = #{streetId} and status = 1
+    </select>
+
+    <select id="getMarketForPassport" resultMap="BaseResultMap">
+        select * from market_entry where passport_id = #{passportId}
+    </select>
+
+    <select id="searchMarkets" resultMap="BaseResultMap">
+        select * from market_entry where 1 = 1
+        <if test="searchModel.province != null">
+            and province = #{searchModel.province}
+        </if>
+        <if test="searchModel.city != null">
+            and city = #{searchModel.city}
+        </if>
+        <if test="searchModel.district != null">
+            and district = #{searchModel.district}
+        </if>
+        <if test="searchModel.street != null">
+            and street = #{searchModel.street}
+        </if>
+        <if test="searchModel.streetId != 0">
+            and street_id = #{searchModel.streetId}
+        </if>
+        <if test="searchModel.type != -1">
+            and type = #{searchModel.type}
+        </if>
+        <if test="searchModel.status != -1">
+            and status = #{searchModel.status}
+        </if>
+        <if test="searchModel.deliveryMode != -1">
+            and delivery_mode = #{searchModel.deliveryMode}
+        </if>
+        order by create_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="searchMarketsCount" resultType="Integer">
+        select count(id) from market_entry where 1 = 1
+        <if test="searchModel.province != null">
+            and province = #{searchModel.province}
+        </if>
+        <if test="searchModel.city != null">
+            and city = #{searchModel.city}
+        </if>
+        <if test="searchModel.district != null">
+            and district = #{searchModel.district}
+        </if>
+        <if test="searchModel.street != null">
+            and street = #{searchModel.street}
+        </if>
+        <if test="searchModel.streetId != -1">
+            and street_id = #{searchModel.streetId}
+        </if>
+        <if test="searchModel.type != -1">
+            and type = #{searchModel.type}
+        </if>
+        <if test="searchModel.status != -1">
+            and status = #{searchModel.status}
+        </if>
+        <if test="searchModel.deliveryMode != -1">
+            and delivery_mode = #{searchModel.deliveryMode}
+        </if>
+    </select>
+
+    <update id="marketResponse">
+        update market_entry set status = #{status} where id = #{marketId}
+        <if test="matchStatus != 0">and status = #{matchStatus}</if>
+    </update>
+
+    <update id="changeOnlineStatus">
+        update market_entry set online_status = #{targetStatus} where id = #{marketId} and online_status = #{matchStatus}
+    </update>
+
+    <insert id="createMarket" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.market.data.model.MarketEntry">
+        insert into market_entry(name, province, city, district, street_id, street, street_number, address, location, delivery_mode, covering_distance, delivery_cost, free_delivery_fee, status, type)
+        values(#{name}, #{province}, #{city}, #{district}, #{streetId}, #{street}, #{streetNumber}, #{address}, #{location}, #{deliveryMode}, #{distance}, #{deliveryCost}, #{freeDeliveryFee}, #{status}, #{type})
+    </insert>
+
+    <update id="updateMarket" parameterType="com.xlibao.market.data.model.MarketEntry">
+        update market_entry set name = #{name}, province = #{province}, city = #{city}, district = #{district}, street_id = #{streetId}, street = #{street}, street_number = #{streetNumber}, address = #{address},
+        location = #{location}, delivery_mode = #{deliveryMode}, covering_distance = #{distance}, delivery_cost = #{deliveryCost}, free_delivery_fee = #{freeDeliveryFee} where id = #{id}
+    </update>
+</mapper>

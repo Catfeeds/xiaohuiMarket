@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.passport.data.mapper.sms.PassportSmsLoggerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.passport.data.model.PassportSmsLogger">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createSmsLogger" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.passport.data.model.PassportSmsLogger">
+        insert into passport_sms_logger(phone, content, code, type, status) values(#{phone}, #{content}, #{code}, #{type}, #{status})
+    </insert>
+
+    <select id="getSmsLogger" resultMap="BaseResultMap">
+        select * from passport_sms_logger where phone = #{phoneNumber} and type = #{type} and status = #{status}
+    </select>
+
+    <update id="modifySmsStatus">
+        update passport_sms_logger set status = #{status} where id = #{id}
+    </update>
+</mapper>

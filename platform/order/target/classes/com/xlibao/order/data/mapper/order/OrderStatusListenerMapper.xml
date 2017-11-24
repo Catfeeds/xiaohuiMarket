@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.order.data.mapper.order.OrderStatusListenerMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.order.OrderStatusListener">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="partner_id" property="partnerId" jdbcType="VARCHAR"/>
+        <result column="event_type" property="eventType" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="callback_url" property="callbackUrl" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getOrderStatusListener" resultMap="BaseResultMap">
+        select * from order_status_listener where partner_id = #{partnerId} and event_type = #{eventType} and status = 1
+    </select>
+</mapper>

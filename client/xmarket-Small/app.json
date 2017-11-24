@@ -1,0 +1,42 @@
+{
+	"pages": [
+		
+
+		"pages/index/index",
+		"pages/index/search",
+
+		"pages/cart/cart",
+
+		"pages/pay/pay",
+		"pages/my/my",
+		"pages/my/edit",
+
+		
+		"pages/address/address",
+		"pages/address/addressEdit",
+		"pages/address/addressArea",
+
+		"pages/order/order",
+		"pages/order/orderInfo",
+		"pages/order/scan",
+		"pages/order/scanSuccess",
+		"pages/order/refund/refundApply",
+		"pages/order/refund/refundWhy"
+
+	],
+	"window": {
+		"backgroundTextStyle": "light",
+		"navigationBarBackgroundColor": "#890E25",
+		"navigationBarTitleText": "小惠便利仓",
+		"navigationBarTextStyle": "#fff",
+		"backgroundColor": "#ECECEC",
+		"enablePullDownRefresh": "true"
+	},
+	"networkTimeout": {
+		"request": 10000,
+		"connectSocket": 10000,
+		"uploadFile": 10000,
+		"downloadFile": 10000
+	},
+	"debug": false
+}

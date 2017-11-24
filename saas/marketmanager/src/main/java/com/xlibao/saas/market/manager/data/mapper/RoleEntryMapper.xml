@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.manager.data.mapper.RoleEntryMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.saas.market.manager.data.model.RoleEntry">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="role_title" property="roleTitle" jdbcType="VARCHAR"/>
+        <result column="explains" property="explain" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="searchRoles" resultMap="BaseResultMap">
+        select * from role where is_delete=1 order by create_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="roleCount" resultType="int">
+        select count(*) from role where is_delete = 1
+    </select>
+
+    <select id="searchRoleEntryById" resultMap="BaseResultMap">
+        select * from role where id = #{id}
+    </select>
+
+    <insert id="createRole" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.saas.market.manager.data.model.RoleEntry">
+        insert into role(role_name, role_title, explains, status, is_delete, create_time, update_time)
+        values(#{roleName}, #{roleTitle}, #{explain}, #{status},#{isDelete}, #{createTime}, #{updateTime})
+    </insert>
+
+    <update id="updateRole" parameterType="com.xlibao.saas.market.manager.data.model.RoleEntry">
+        update role set role_name = #{roleName}, role_title = #{roleTitle}, explains = #{explain},
+         status = #{status}, is_delete = #{isDelete} where id = #{id}
+    </update>
+
+    <update id="roleDel" parameterType="com.xlibao.saas.market.manager.data.model.RoleEntry">
+        update role set is_delete = #{isDelete}, update_time = #{updateTime} where id = #{id}
+    </update>
+
+
+</mapper>

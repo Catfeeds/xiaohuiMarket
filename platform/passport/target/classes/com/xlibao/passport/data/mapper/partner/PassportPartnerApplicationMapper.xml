@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.passport.data.mapper.partner.PassportPartnerApplicationMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.passport.PassportPartnerApplication">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="partner_id" property="partnerId" jdbcType="BIGINT"/>
+        <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+        <result column="app_key" property="appKey" jdbcType="VARCHAR"/>
+        <result column="access_key" property="accessKey" jdbcType="VARCHAR"/>
+        <result column="access_key_secret" property="accessKeySecret" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="getPartnerApp" resultMap="BaseResultMap">
+        select * from passport_partner_application where id = #{id}
+    </select>
+</mapper>

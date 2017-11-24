@@ -1,0 +1,9 @@
+com\xlibao\item\data\mapper\ItemTypeMapper.class
+com\xlibao\item\data\mapper\ItemDataAccessManager.class
+com\xlibao\item\data\mapper\ItemTemplateMapper.class
+com\xlibao\item\data\mapper\ItemUnitMapper.class
+com\xlibao\item\controller\ItemController.class
+com\xlibao\item\data\mapper\ItemBrandMapper.class
+com\xlibao\item\data\mapper\ItemRelationshipMapper.class
+com\xlibao\item\service\item\ItemService.class
+com\xlibao\item\service\item\impl\ItemServiceImpl.class

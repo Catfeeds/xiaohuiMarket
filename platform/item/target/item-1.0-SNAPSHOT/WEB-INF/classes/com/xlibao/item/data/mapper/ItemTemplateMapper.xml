@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.item.data.mapper.ItemTemplateMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.item.ItemTemplate">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="define_code" property="defineCode" jdbcType="VARCHAR"/>
+        <result column="brand_id" property="brandId" jdbcType="BIGINT"/>
+        <result column="barcode" property="barcode" jdbcType="VARCHAR"/>
+        <result column="type_id" property="typeId" jdbcType="BIGINT"/>
+        <result column="unit_id" property="unitId" jdbcType="BIGINT"/>
+        <result column="cost_price" property="costPrice" jdbcType="BIGINT"/>
+        <result column="default_price" property="defaultPrice" jdbcType="BIGINT"/>
+        <result column="image_url" property="imageUrl" jdbcType="VARCHAR"/>
+        <result column="banner_url" property="bannerUrl" jdbcType="VARCHAR"/>
+        <result column="introduction_page" property="introductionPage" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="uploader_passport_id" property="uploaderPassportId" jdbcType="BIGINT"/>
+        <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="IdNameMap" type="com.xlibao.metadata.item.ItemIdName">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="barcode" property="barcode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Example_Entity_Where_Clause">
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="template.id != null and template.id != ''">
+                and id = #{template.id}
+            </if>
+            <if test="template.name != null and template.name != ''">
+                and name like '%'+#{template.name}+'%'
+            </if>
+            <if test="template.defineCode != null and template.defineCode != ''">
+                and define_code = #{template.defineCode}
+            </if>
+            <if test="template.brandId != null and template.brandId != ''">
+                and brand_id = ${template.brandId}
+            </if>
+            <if test="template.barcode != null and template.barcode != ''">
+                and barcode = ${template.barcode}
+            </if>
+            <if test="template.typeId != null and template.typeId != ''">
+                and type_id = ${template.typeId}
+            </if>
+            <if test="template.unitId != null and template.unitId != ''">
+                and unit_id = ${template.unitId}
+            </if>
+            <if test="template.uploaderPassportId != null and template.uploaderPassportId != ''">
+                and uploader_passport_id = ${template.uploaderPassportId}
+            </if>
+            <if test="template.uploadTime != null and template.uploadTime != ''">
+                and upload_time like "%"#{template.uploadTime}"%"
+            </if>
+        </trim>
+    </sql>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+        insert into item_template(name, define_code, brand_id, barcode, type_id, unit_id, cost_price, default_price, image_url, banner_url, introduction_page, description, status, uploader_passport_id, upload_time)
+        values(#{name}, #{defineCode}, #{brandId}, #{barcode}, #{typeId}, #{unitId}, #{costPrice}, #{defaultPrice}, #{imageUrl}, #{bannerUrl}, #{introductionPage}, #{description}, #{status}, #{uploaderPassportId}, #{uploadTime})
+    </insert>
+
+    <select id="loaderItemTemplates" resultMap="BaseResultMap">
+        select * from item_template
+    </select>
+
+    <select id="getItemTemplates" resultMap="BaseResultMap">
+        select * from item_template where type_id = #{type} and status = #{status}
+    </select>
+
+    <select id="fuzzyMatchItemTemplate" resultMap="BaseResultMap">
+        select * from item_template where name like concat('%', #{name}, '%')
+    </select>
+
+    <select id="getItemTemplateIdAndNames" resultMap="IdNameMap">
+        select * from item_template where type_id = #{typeId}
+    </select>
+
+    <select id="getItemTemplate" resultMap="BaseResultMap">
+        select * from item_template where id = #{itemTemplateId}
+        <if test="status != -1">and status = #{status}</if>
+    </select>
+
+    <select id="getItemTemplateByName" resultMap="BaseResultMap">
+        select * from item_template where name = #{itemName} and status = #{status}
+    </select>
+
+    <select id="getItemTemplateByBarcode" resultMap="BaseResultMap">
+        select * from item_template where barcode = #{barcode}
+    </select>
+
+    <update id="updateItemTemplate">
+        update item_template set name = #{name}, define_code = #{defineCode}, brand_id = #{brandId}, barcode = #{barcode}, type_id = #{typeId}, unit_id = #{unitId}, cost_price = #{costPrice}, default_price = #{defaultPrice},
+        image_url = #{imageUrl}, banner_url = #{bannerUrl}, introduction_page = #{introductionPage}, description = #{description}, status = #{status}, uploader_passport_id = #{uploaderPassportId}, upload_time = #{uploadTime}
+        where id = #{id}
+    </update>
+
+    <select id="getItemTemplateList" resultMap="BaseResultMap">
+        select *  from item_template
+        <include refid="Example_Entity_Where_Clause"/>
+        order by upload_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getItemTemplateListCount" resultType="Integer">
+        select count(id) from item_template
+        <include refid="Example_Entity_Where_Clause"/>
+    </select>
+
+    <select id="searchItemTemplates" resultMap="BaseResultMap">
+        select * from item_template
+        <if test="searchKey != null" >
+            <if test="searchType == 'name'" >
+                where name like "%"#{searchKey}"%"
+            </if>
+            <if test="searchType == 'define_code'" >
+                where define_code like "%"#{searchKey}"%"
+            </if>
+            <if test="searchType == 'barcode'" >
+                where barcode like "%"#{searchKey}"%"
+            </if>
+        </if>
+        order by upload_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="searchItemTemplateCount" resultType="Integer">
+        select count(*) from item_template
+        <if test="searchKey != null" >
+            <if test="searchType == 'name'" >
+                where name like "%"#{searchKey}"%"
+            </if>
+            <if test="searchType == 'define_code'" >
+                where define_code like "%"#{searchKey}"%"
+            </if>
+            <if test="searchType == 'barcode'" >
+                where barcode like "%"#{searchKey}"%"
+            </if>
+        </if>
+    </select>
+
+
+    <insert id="createTemplate" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.item.ItemTemplate">
+        insert into item_template(name, define_code, barcode, type_id, unit_id,
+        cost_price, default_price, length, width, height, status, description, uploader_passport_id)
+        values(#{name}, #{defineCode}, #{barcode}, #{typeId}, #{unitId},
+        #{costPrice}, #{defaultPrice}, #{length}, #{width}, #{height},
+        #{status}, #{description}, #{uploaderPassportId})
+    </insert>
+
+    <update id="updateTemplate">
+        update item_template set name = #{name}, define_code = #{defineCode}, barcode = #{barcode},
+        type_id = #{typeId}, unit_id = #{unitId},
+        cost_price = #{costPrice}, default_price = #{defaultPrice},
+        length = #{length},
+        width = #{width},
+        height = #{height},
+        status = #{status},
+        description = #{description},
+        uploader_passport_id = #{uploaderPassportId}
+        where id = #{id}
+    </update>
+
+    <update id="updateTemplateImgUrl">
+        update item_template set image_url = #{itemImgUrl}  where id = #{itemId}
+    </update>
+
+
+</mapper>

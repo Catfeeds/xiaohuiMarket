@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.payment.data.mapper.PaymentBankMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.payment.data.model.PaymentBank">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="passport_id" property="passportId" jdbcType="BIGINT"/>
+        <result column="bank_template_id" property="bankTemplateId" jdbcType="BIGINT"/>
+        <result column="account_type" property="accountType" jdbcType="INTEGER"/>
+        <result column="bank_account" property="bankAccount" jdbcType="VARCHAR"/>
+        <result column="account_name" property="accountName" jdbcType="VARCHAR"/>
+        <result column="reserve_phone" property="reservePhone" jdbcType="VARCHAR"/>
+        <result column="branch_name" property="branchName" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createPaymentBank">
+        insert into payment_bank(passport_id, bank_template_id, account_type, bank_account, account_name, reserve_phone, branch_name, status)
+        values(#{passportId}, #{bankTemplateId}, #{accountType}, #{bankAccount}, #{accountName}, #{reservePhone}, #{branchName}, #{status})
+    </insert>
+
+    <select id="getBankForKey" resultMap="BaseResultMap">
+        select * from payment_bank where id = #{bankId}
+    </select>
+
+    <select id="getBank" resultMap="BaseResultMap">
+        select * from payment_bank where bank_account = #{bankAccount}
+    </select>
+
+    <select id="getBanks" resultMap="BaseResultMap">
+        select * from payment_bank where passport_id = #{passportId} and status in(0, 1)
+    </select>
+
+    <update id="updateBanksStatus">
+        update payment_bank set status = #{status} where passport_id = #{passportId} and status = #{matchStatus}
+    </update>
+
+    <update id="setDefault">
+        update payment_bank set status = #{status} where id = #{bankId}
+    </update>
+
+    <update id="updateBankData">
+        update payment_bank set passport_id = #{passportId}, bank_template_id = #{bankTemplateId}, bank_account = #{bankAccount}, account_name = #{accountName}, reserve_phone = #{reservePhone},
+        branch_name = #{branchName}, status = #{status} where id = #{bankId}
+    </update>
+</mapper>

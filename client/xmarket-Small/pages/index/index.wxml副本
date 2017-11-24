@@ -1,0 +1,437 @@
+<import src="../../template/template.wxml"/>
+<import src="../../template/temp-goods.wxml"/>
+
+<view class="index cus-height-100">
+	<view class="navbar">
+		<view class="item" bindtap="onCanvas" data-temp="temp_offcanvas_navbar">
+			<template is="icon" data="{{...icons.navigate}}"></template>
+		</view>
+		<view class="item"  bindtap="onCanvas" data-temp="temp_offcanvas_address" >
+			<template is="icon" data="{{...icons.W_locationIcon}}"></template>
+			{{currMarket.name}}
+		</view>
+		<navigator class="item" hover-class="navigator-hover" url="../order/order">  
+			<template is="icon" data="{{...icons.search}}"></template>
+		</navigator>
+	</view>
+
+	<view style="width:100%;height:calc(100% - 0px);display:inline-flex;">
+		<!-- 分类显示区域 -->
+		<scroll-view class="subnav" scroll-y="true" style="width: 85px;">
+			<view style="height: 40px;"></view>
+
+			<view class="item {{status.typeShow == '10000' ? 'active':''}}" data-status-key="cart_show" data-status-val="10000" data-temp="temp_hot" bindtap="onStatus">热卖</view>
+
+			<view wx:for="{{typeList}}"
+			class="item {{status.typeShow == '10001' ? 'active':''}}" data-status-key="cart_show" data-status-val="10001" data-temp="temp_goods" bindtap="onStatus">零时糖果</view>
+		 	<view class="subitem {{status.typeShow == '10001' ? 'active':''}}">
+	 			<view class="active" bindtap="onSubTarget">年货</view>
+	 			<view bindtap="onSubTarget">口香糖</view>
+	 			<view bindtap="onSubTarget">无穷</view>
+	 			<view bindtap="onSubTarget">卫龙</view>
+	 			<view bindtap="onSubTarget">花生瓜子</view>
+	 			<view bindtap="onSubTarget">休闲</view>
+	 			<view bindtap="onSubTarget">饼干</view>
+		 	</view>
+			<view class="item" data-temp="temp_Order_take" bindtap="onTarget">日用洗护</view>
+			<view class="item" data-temp="temp_Order_take" bindtap="onTarget">米面粮食</view>
+			<view style="height: 50px;"></view>
+		</scroll-view>
+
+		<!-- 商品显示区域 -->
+		<scroll-view class="list" scroll-y="true" style="width: calc(100% - 85px);">
+			<view style="height: 40px;"></view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view style="height: 50px;"></view>
+		</scroll-view>
+	</view>
+
+	<!-- 购物车 -->
+	<view class="cartnav">
+		<view class="item left {{status.cartShow ? 'hide':'show'}}">
+			<view class="iconCart">
+				<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/CarIcon@3x.png" data-status-key="cartShow" bindtap="onStatus"></image>
+				<view class="tagNnm">18</view>
+			</view>
+		</view>
+		<view class="item center">
+			<view class="text-small-1x">合计：￥<text class="text-large-2x">110.50</text></view>
+			<view class="text-small-1x">节省：￥0.30</view>
+		</view>
+		<navigator class="item right" style="font-size: 17px;" hover-class="navigator-hover" url="../pay/pay">去结算</navigator>
+	</view>
+
+	<!-- 二级购物车 -->
+	<view class="cart-subnav-scenes {{status.cartShow ? 'show':'hide'}}" data-status-key="cartShow" bindtap="onStatus"></view>
+	<view class="cart-subnav {{status.cartShow ? 'show':'hide'}}">
+		<view class="iconCart">
+			<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/CarIcon@3x.png" data-status-key="cartShow" bindtap="onStatus"></image>
+			<view class="tagNnm">18</view>
+		</view>
+		<text class="iconCart-up"></text>
+		<view class="hd">
+			<label class="checkbox">
+				<checkbox style="transform:scale(.6);"></checkbox>
+				全选（已选1件）
+			</label>
+			<view style="width:80px;">
+				清空购物车
+			</view>
+		</view>
+		<scroll-view class="bd list" scroll-y="true">
+			<view class="item">
+				<label class="checkbox" style="margin-top: 25px;">
+					<checkbox style="transform:scale(.6);"></checkbox>
+				</label>
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<label class="checkbox" style="margin-top: 25px;">
+					<checkbox style="transform:scale(.6);"></checkbox>
+				</label>
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<label class="checkbox" style="margin-top: 25px;">
+					<checkbox style="transform:scale(.6);"></checkbox>
+				</label>
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<label class="checkbox" style="margin-top: 25px;">
+					<checkbox style="transform:scale(.6);"></checkbox>
+				</label>
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+			<view class="item">
+				<label class="checkbox" style="margin-top: 25px;">
+					<checkbox style="transform:scale(.6);"></checkbox>
+				</label>
+				<image class="item-img" src="http://oss.0085.com/supplyerp/1490696078398.jpg" ></image>
+				<view>
+					<view class="text-large">彩虹糖原味夏日1200g单瓶装</view>
+					<view>
+						<text class="text-muted text-small">库存：526</text>    
+						<text class="text-secon text-small text-indent">满3瓶，￥8.2/瓶</text>
+					</view>
+					<view>
+						<text class="text-main text-small">￥</text>
+						<text class="text-main text-large-2x">11.50</text>
+						<text class="text-delete text-small text-indent-small">￥8.80</text>
+					</view>	
+				</view>
+				<view class="cart-buts">
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/minusIcon@3x.png"></image>
+					<text>33</text>
+					<image src="http://xmarket.oss-cn-shenzhen.aliyuncs.com/market/app/icon/Addicon@3x.png"></image>
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+
+	<view class="offcanvas {{isCanvas? 'active':''}}" style="top:45px"  bindtap="onCanvas" data-isCanvas="{{isCanvas}}">
+		<view class="offcanvas-bar {{isCanvas? 'offcanvas-bar-show':''}} {{showCanvasTemp == 'temp_offcanvas_address'?'offcanvas-bar-center':''}}" 
+		style="top:45px;{{showCanvasTemp == 'temp_offcanvas_navbar'?'width: 150px':''}}" catchtap="off">
+			<template wx:if="{{showCanvasTemp == 'temp_offcanvas_navbar'}}" is="temp_offcanvas_navbar"></template>
+			<block wx:if="{{showCanvasTemp == 'temp_offcanvas_address'}}">
+				<view class="navigator-text cus-fs-18 cus-border-bt-solid" catchtap="off">选择店铺</view>	
+				<block wx:if="{{currMarket}}">
+					<view class="navigator-text cus-border-bt-solid" bindtap="onMarket" data-id="{{currMarket.id}}">
+						<view class="store" data-id="{{currMarket.id}}">
+							当前位置：{{currMarket.name}}
+							<view class="tags" style="background: red" data-id="{{currMarket.id}}">当前关联</view>
+							<view class="tags dist" data-id="{{currMarket.id}}">{{currMarket.formatDistance}}</view>
+						</view> 
+						<text class="addres" data-id="{{currMarket.id}}">地址：{{currMarket.formatAddress}}</text>
+					</view>
+				</block>
+				<template is="temp_offcanvas_address" data="{{...item,currMarket}}" wx:for="{{marketData}}" wx:key="{{item.id}}"></template>
+			</block>
+		</view>
+	</view>
+</view>

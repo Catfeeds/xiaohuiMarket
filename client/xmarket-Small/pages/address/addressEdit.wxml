@@ -1,0 +1,49 @@
+
+<view class="list justify" style="margin-top: 10px;">
+	<view class="item start">
+		<view><text>收货人</text></view>
+		<view>
+			<input placeholder="请填写收货人姓名"></input>
+		</view>
+	</view>
+	<view class="item start">
+		<view><text>联系电话</text></view>
+		<view>
+			<input placeholder="请填写联系人手机号"></input>
+		</view>
+	</view>
+	<view class="item">
+		<view><text>所在区域</text></view>
+		<view bindtap="onGo" data-url="addressArea?showName=area">
+			<text class="text-B2" data-url="addressArea?showName=area">请选择</text>
+			<text class="navigator-arrow" data-url="addressArea?showName=area"></text>
+		</view>
+	</view>
+	<view class="item">
+		<view><text>街道</text></view>
+		<view bindtap="onGo" data-url="addressArea?showName=street">
+			<text class="text-B2" data-url="addressArea?showName=street">请选择</text>
+			<text class="navigator-arrow text-B2" data-url="addressArea?showName=street"></text>
+		</view>
+	</view>
+	<view class="item start">
+		<view><text>详细地址</text></view>
+		<view>
+			<input placeholder="街道门牌信息"></input>
+		</view>
+	</view>
+</view>
+
+<view class="list justify" style="margin-top: 10px;">
+	<view class="item">
+		<view><text>设为默认</text></view>
+		<view>
+			<radio style="transform:scale(.85);" color="#8F1A30" checked="true"/>
+		</view>
+	</view>
+</view>
+
+
+<view style="width:90%;margin:30px auto;">
+	<button type="primary" bindtap="onPay" data-isTap="true">确认</button>
+</view>

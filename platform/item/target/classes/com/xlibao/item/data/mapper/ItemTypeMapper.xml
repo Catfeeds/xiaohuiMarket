@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.item.data.mapper.ItemTypeMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.item.ItemType">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="top" property="top" jdbcType="TINYINT"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="image" property="image" jdbcType="VARCHAR"/>
+        <result column="request_source" property="requestSource" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="loaderItemTypes" resultMap="BaseResultMap">
+        select * from item_type
+    </select>
+
+    <select id="relationItemTypes" resultMap="BaseResultMap">
+        select * from item_type where parent_id = #{parentItemTypeId} and status = #{status}
+    </select>
+
+    <select id="getItemType" resultMap="BaseResultMap">
+        select * from item_type where id = #{itemTypeId}
+    </select>
+
+    <select id="itemTypesCount" resultType="Integer">
+        select COUNT(id) from item_type
+        <if test="parentItemTypeId != -1" > where parent_id = #{parentItemTypeId} </if>
+    </select>
+
+    <select id="pageItemType" resultMap="BaseResultMap">
+        select * from item_type
+          <if test="parentItemTypeId != -1" > where parent_id = #{parentItemTypeId} </if>
+        order by sort asc
+          <if test="pageSize != 0">limit #{pageStartIndex}, #{pageSize}</if>
+    </select>
+
+    <select id="searchItemTypePageByName" resultMap="BaseResultMap">
+        select * from item_type
+          <if test="searchKey != null" > where title like "%"#{searchKey}"%" </if>
+        order by id desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="searchItemTypeCountByName" resultType="Integer">
+        select count(id) from item_type
+        <if test="searchKey != null"> where title like "%"#{searchKey}"%"</if>
+    </select>
+
+    <select id="getItemTypeSortMaxId" resultMap="BaseResultMap">
+        select * from item_type order by sort desc limit 1
+    </select>
+
+    <update id="updateItemTypeSort">
+        update item_type set sort = #{sort} where id = #{id}
+    </update>
+
+    <update id="updateItemTypeIconUrl">
+        update item_type set icon = #{icon}  where id = #{id}
+    </update>
+
+    <update id="updateItemType">
+        update item_type set icon = #{type.icon} , parent_id = #{type.parentId} , title = #{type.title} where id = #{type.id}
+    </update>
+</mapper>

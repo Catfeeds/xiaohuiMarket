@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.passport.data.mapper.passport.PassportMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.metadata.passport.Passport">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="default_name" property="defaultName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="show_name" property="showName" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="head_image" property="headImage" jdbcType="VARCHAR"/>
+        <result column="id_number" property="idNumber" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="TINYINT"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="from_channel" property="fromChannel" jdbcType="BIGINT"/>
+        <result column="device_type" property="deviceType" jdbcType="INTEGER"/>
+        <result column="device_name" property="deviceName" jdbcType="VARCHAR"/>
+        <result column="access_token" property="accessToken" jdbcType="VARCHAR"/>
+        <result column="token_invalid_time" property="tokenInvalidTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createPassport" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.metadata.passport.Passport">
+        insert into passport(default_name, password, show_name, real_name, head_image, id_number, phone_number, sex, type, status, from_channel, device_type, device_name)
+        values(#{defaultName}, #{password}, #{showName}, #{realName}, #{headImage}, #{idNumber}, #{phoneNumber}, #{sex}, #{type}, #{status}, #{fromChannel}, #{deviceType}, #{deviceName})
+    </insert>
+
+    <select id="getPassport" resultMap="BaseResultMap">
+        select * from passport where id = #{id}
+    </select>
+
+    <update id="perfectPassportInformation">
+        update passport set show_name = #{nickName}, head_image = #{headImageUrl}, sex = #{sex}, status = #{status} where id = #{id}
+    </update>
+
+    <update id="modifyPassportPassword">
+        update passport set password = #{password} where id = #{id}
+    </update>
+
+    <update id="modifyAccessToken">
+        update passport set access_token = #{accessToken}, token_invalid_time = #{appointTime} where id = #{id}
+    </update>
+
+    <update id="modifyPhoneNumber">
+        update passport set phone_number = #{mobileNumber} where id = #{passportId}
+    </update>
+
+    <update id="modifyNickname">
+        update passport set show_name = #{nickname} where id = #{id}
+    </update>
+
+    <update id="extendAccessToken">
+        update passport set token_invalid_time = #{appointTime} where passport_id = #{passportId} and access_toke = #{accessToken} and token_invalid_time > now()
+    </update>
+</mapper>

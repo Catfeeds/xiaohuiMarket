@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.saas.market.data.mapper.item.MarketItemLocationMapper">
+    <resultMap id="BaseResultMap" type="com.xlibao.market.data.model.MarketItemLocation">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="market_id" property="marketId" jdbcType="BIGINT"/>
+        <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+        <result column="item_template_id" property="itemTemplateId" jdbcType="BIGINT"/>
+        <result column="location_code" property="locationCode" jdbcType="VARCHAR"/>
+        <result column="stock" property="stock" jdbcType="INTEGER"/>
+        <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <insert id="createItemLocation" useGeneratedKeys="true" keyProperty="id" parameterType="com.xlibao.market.data.model.MarketItemLocation">
+        insert into market_item_location(market_id, item_id, item_template_id, location_code, stock, last_modify_time, create_time)
+        values(#{marketId}, #{itemId}, #{itemTemplateId}, #{locationCode}, #{stock}, #{lastModifyTime}, #{createTime})
+    </insert>
+
+    <select id="getItemLocation" resultMap="BaseResultMap">
+        select * from market_item_location where item_id = #{itemId} and location_code = #{location}
+    </select>
+
+    <select id="getItemLocationForMarket" resultMap="BaseResultMap">
+        select * from market_item_location where market_id = #{marketId} and location_code = #{location}
+    </select>
+
+    <select id="matchItemLocationForMarket" resultMap="BaseResultMap">
+        select * from market_item_location where market_id = #{marketId} and location_code like concat(#{matchLocation}, '%') order by location_code asc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <select id="getItemLocations" resultMap="BaseResultMap">
+        select * from market_item_location where item_id = #{itemId} and stock > 0
+    </select>
+
+    <select id="getItemLocationsForMarket" resultMap="BaseResultMap">
+        select * from market_item_location where market_id = #{marketId} and location_code in(${itemLocationSet}) and stock > 0
+    </select>
+
+    <update id="offsetItemLocationStock">
+        update market_item_location set stock = stock - #{decrementStock}, last_modify_time = now() where id = #{locationId}
+    </update>
+
+    <update id="removeItemLocation">
+        delete from market_item_location where id = #{locationId}
+    </update>
+</mapper>

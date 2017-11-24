@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xlibao.advert.data.mapper.AdvertTemplateMapper">
+
+    <resultMap id="BaseResultMap" type="com.xlibao.advert.data.model.AdvertInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="advert_id" property="advertID" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="video_name" property="videoName" jdbcType="VARCHAR"/>
+        <result column="time_size" property="timeSize"/>
+        <result column="time_type" property="timeType" jdbcType="BIGINT"/>
+        <result column="advert_remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="used" property="used" jdbcType="BIGINT"/>
+        <result column="is_delete" property="isDelete" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="is_down" property="isDown" jdbcType="BIGINT"/>
+    </resultMap>
+    <select id="getAdvertByGroupId" resultMap="BaseResultMap">
+        select i.*  from advert_info i JOIN advert_group g ON i.id  = g.advert_id where i.is_delete!=1 and g.is_delete!=1
+        and g.group_id = #{groupId,jdbcType=BIGINT}
+    </select>
+
+    <select id="getAdvertsByParameter" resultMap="BaseResultMap">
+         select IFNULL(r.is_down,0)as is_down,i.*  from advert_screen_info b JOIN advert_group g ON b.advert_id = g.group_id   JOIN advert_info i ON i.id  = g.advert_id LEFT JOIN download_record r ON (g.group_id = r.group_id and g.advert_id = r.advert_id and b.screen_id=r.screen_id and b.market_id=r.market_id) where i.is_delete!=1 and g.is_delete!=1
+        <if test="groupId!=-1">
+         and g.group_id = #{groupId,jdbcType=BIGINT}
+        </if>
+         and b.screen_id=#{screenId,jdbcType=BIGINT} and b.market_id=#{marketId,jdbcType=BIGINT}
+    </select>
+
+    <select id="searchAdvertTemplates" resultMap="BaseResultMap">
+        SELECT * FROM advert_info WHERE is_delete!=1
+        <if test="title!=null">
+            AND title LIKE "%"#{title}"%"
+        </if>
+        <if test="timeType!=-1">
+            AND time_type = #{timeType}
+        </if>
+        <if test="isUsed!=-1">
+            AND used = #{isUsed}
+        </if>
+        order by create_time desc limit #{pageStartIndex}, #{pageSize}
+    </select>
+
+    <insert id="uploadAdvertInfo" parameterType="com.xlibao.advert.data.model.AdvertInfo" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO advert_info (advert_id,title,video_name,time_size,time_type,advert_remark,url)
+        VALUE (#{advertID},#{title},#{videoName},#{timeSize},#{timeType},#{remark},#{url})
+    </insert>
+
+    <select id="getMaxAdvertID" resultType="int">
+        SELECT MAX(advert_id) FROM  advert_info
+    </select>
+
+    <select id="isExistAdvert" resultType="int">
+        SELECT count(*) FROM advert_info
+    </select>
+
+    <select id="searchAdvertFromID" resultMap="BaseResultMap">
+        SELECT * FROM advert_info
+        <if test="advertID!=0">
+            WHERE advert_id = #{advertID}
+        </if>
+    </select>
+
+
+    <update id="updateAdvertInfo">
+        UPDATE advert_info SET title = #{title},time_size=#{timeSize},advert_remark=#{remark} WHERE advert_id = #{advertID}
+    </update>
+
+    <!--<delete id="deleteAdvertFromID">
+        DELETE FROM advert_info WHERE advert_id = #{advertID}
+    </delete>-->
+
+    <update id="deleteAdvertFromID">
+        UPDATE advert_info SET is_delete = 1 WHERE advert_id = #{advertID}
+    </update>
+
+
+    <select id="getAdvertCount" resultType="int">
+        SELECT count(*) FROM advert_info where is_delete!=1;
+    </select>
+
+</mapper>

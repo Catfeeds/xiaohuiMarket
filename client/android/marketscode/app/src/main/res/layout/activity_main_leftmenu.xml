@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@color/bg_f2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_detailinfo"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:gravity="center|center"
+        android:orientation="horizontal">
+
+        <com.zhumg.anlib.widget.RoundedImageView
+            android:id="@+id/img_userpic"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ico_user_head"
+            app:oval="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:gravity="center|center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_username"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="left|bottom"
+                android:paddingBottom="8dp"
+                android:text="sdfsdfsdf"
+                android:textColor="@color/font_6"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/txt_rank"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="top|left"
+                android:paddingBottom="8dp"
+                android:text="补货员"
+                android:textColor="@color/font_6" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="12sp"
+            android:layout_height="12sp"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ico_right_2" />
+    </LinearLayout>
+    <!---->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/line_d2" />
+
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_work"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:gravity="center|center"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="left|center"-->
+            <!--android:paddingBottom="3dp"-->
+            <!--android:text="打卡"-->
+            <!--android:textColor="#4e4e4e" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="12sp"-->
+            <!--android:layout_height="12sp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/ico_right_2" />-->
+    <!--</LinearLayout>-->
+    <!--&lt;!&ndash;&ndash;&gt;-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/ll_Market_development"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="45dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:gravity="center|center"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_market_deve"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="left|center"-->
+            <!--android:paddingBottom="3dp"-->
+            <!--android:text="市场开拓"-->
+            <!--android:textColor="#4e4e4e" />-->
+
+        <!--<ImageView-->
+            <!--android:layout_width="12sp"-->
+            <!--android:layout_height="12sp"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:src="@drawable/ico_right_2" />-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/ll_quitLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_quit_login"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_border_grey"
+            android:gravity="center"
+            android:text="退出账户"
+            android:textColor="@color/blue"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>
+

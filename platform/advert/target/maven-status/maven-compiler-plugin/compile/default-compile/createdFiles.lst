@@ -1,0 +1,7 @@
+com\xlibao\advert\data\mapper\AdvertPlayMapper.class
+com\xlibao\advert\data\mapper\AdvertTemplateMapper.class
+com\xlibao\advert\controller\advertController.class
+com\xlibao\advert\data\mapper\AdvertDataAccessManager.class
+com\xlibao\advert\service\item\advertService.class
+com\xlibao\advert\service\item\impl\advertServiceImpl.class
+com\xlibao\advert\data\mapper\ScreenTemplateMapper.class
