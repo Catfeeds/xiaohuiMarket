@@ -114,7 +114,7 @@
                                         <tr>
                                             <td>${commodity.warehouseName}</td>
                                             <td>${commodity.purchaseTime}</td>
-                                            <td>${commodity.itemTypeTitle}</td>
+                                            <td>${commodity.itemTypeTitle} ->  <b>${commodity.itemName}</b></td>
                                             <td>${commodity.purchaseNumber}</td>
                                         </tr>
                                         </#list>
